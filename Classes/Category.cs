@@ -1,18 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region Header
 
-namespace Exam_Formatter.Classes
-{
+// Alex Gravely - Alex
+//
+// Exam Formatter - Exam Formatter
+// Category.cs - 30//11//2015 1:24 AM
+
+#endregion Header
+
+namespace Exam_Formatter.Classes {
+
 	public class Category {
+
+		#region Public Fields + Properties
+
 		public Question[] Questions;
 
-		public Category() { Questions = new Question[2]; }
+		#endregion Public Fields + Properties
 
-		public Category(Question q) : this() { Questions = new[] {q}; }
+		#region Public Constructors
 
-		public Category(Question[] q) : this () { Questions = q; }
+		public Category()
+		{
+			Questions = new Question[2];
+		}
+
+		public Category(Question q) : this()
+		{
+			Questions = new[] { q };
+		}
+
+		public Category(Question[] q) : this()
+		{
+			Questions = q;
+		}
+
+		#endregion Public Constructors
 	}
 }

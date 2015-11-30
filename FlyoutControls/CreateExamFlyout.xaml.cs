@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MahApps.Metro.Controls;
+﻿#region Header
 
-namespace Exam_Formatter.FlyoutControls
-{
+// Alex Gravely - Alex
+//
+// Exam Formatter - Exam Formatter
+// CreateExamFlyout.xaml.cs - 30//11//2015 1:25 AM
+
+#endregion Header
+
+namespace Exam_Formatter.FlyoutControls {
+
 	/// <summary>
-	/// Interaction logic for CreateExamFlyout.xaml
+	///     Interaction logic for CreateExamFlyout.xaml
 	/// </summary>
-	public partial class CreateExamFlyout 
-	{
+	public partial class CreateExamFlyout {
+
+		#region Public Constructors
+
 		public CreateExamFlyout()
 		{
 			InitializeComponent();
 		}
+
+		#endregion Public Constructors
 	}
 }

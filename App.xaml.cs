@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿#region Header
+
+// Alex Gravely - Alex
+//
+// Exam Formatter - Exam Formatter
+// App.xaml.cs - 30//11//2015 1:24 AM
+
+#endregion Header
+
+#region Using
+
 using System.Windows;
 
-namespace Exam_Formatter
-{
+#endregion Using
+
+namespace Exam_Formatter {
+
 	/// <summary>
-	/// Interaction logic for App.xaml
+	///     Interaction logic for App.xaml
 	/// </summary>
-	public partial class App : Application
-	{
-	}
+	public partial class App : Application {}
 }

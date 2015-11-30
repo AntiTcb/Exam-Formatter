@@ -1,0 +1,129 @@
+﻿<Grid x:Class="Exam_Formatter.Controls.CategoryGrid"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Exam_Formatter.Controls"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      d:DesignHeight="550"
+      d:DesignWidth="650"
+      mc:Ignorable="d">
+	<Grid.RowDefinitions>
+		<RowDefinition Height="Auto" />
+		<RowDefinition Height="*" />
+		<RowDefinition Height="*" />
+		<RowDefinition Height="*" />
+		<RowDefinition Height="*" />
+		<RowDefinition Height="*" />
+	</Grid.RowDefinitions>
+	<Grid.ColumnDefinitions>
+		<ColumnDefinition Width="*" />
+		<ColumnDefinition Width="20" />
+	</Grid.ColumnDefinitions>
+
+	<Grid Grid.Row="0" Grid.Column="0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="25" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="130" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Label Grid.Row="0"
+		       Grid.Column="0"
+		       VerticalAlignment="Center"
+		       Content="Question Type:"
+		       FontFamily="Segoe UI"
+		       FontSize="14"
+		       FontWeight="Bold"
+		       Padding="5,0,5,0" />
+		<Label Grid.Row="0"
+		       Grid.Column="1"
+		       HorizontalAlignment="Left"
+		       VerticalAlignment="Center"
+		       Content="Question Text:"
+		       FontFamily="Segoe UI"
+		       FontSize="14"
+		       FontWeight="Bold"
+		       Padding="5,0,5,0" />
+
+		<StackPanel Grid.Row="1"
+		            Grid.Column="0"
+		            Height="Auto"
+		            Margin="5"
+		            VerticalAlignment="Stretch">
+			<RadioButton Margin="5"
+			             GroupName="QuestionType"
+			             IsChecked="True">
+				<RadioButton.Content>
+					<TextBlock Text="Multiple Choice - Single Answer" TextWrapping="Wrap" />
+				</RadioButton.Content>
+			</RadioButton>
+			<RadioButton Margin="5" GroupName="QuestionType">
+				<RadioButton.Content>
+					<TextBlock Text="Multiple Choice - Select All" TextWrapping="Wrap" />
+				</RadioButton.Content>
+			</RadioButton>
+			<RadioButton Margin="5"
+			             Content="True / False"
+			             GroupName="QuestionType" />
+		</StackPanel>
+
+		<TextBlock Grid.Row="1"
+		           Grid.Column="1"
+		           Margin="10, 0, 10, 10" />
+	</Grid>
+
+	<Grid Grid.Row="1" Grid.Column="0">
+		<DockPanel LastChildFill="True">
+			<Grid DockPanel.Dock="Top">
+				<Label HorizontalAlignment="Left"
+				       Content="Answer 1:"
+				       FontWeight="Bold" />
+				<Label HorizontalAlignment="Right" Content="Select the Correct Answer(s):" />
+			</Grid>
+			<RichTextBox Name="AnswerOneText" />
+		</DockPanel>
+	</Grid>
+
+	<Grid Grid.Row="2" Grid.Column="0">
+		<DockPanel LastChildFill="True">
+			<Label Height="25"
+			       Content="Answer 2:"
+			       DockPanel.Dock="Top"
+			       FontWeight="Bold" />
+			<RichTextBox Name="AnswerTwoText" />
+		</DockPanel>
+	</Grid>
+
+	<Grid Grid.Row="3" Grid.Column="0">
+		<DockPanel LastChildFill="True">
+			<Label Height="25"
+			       Content="Answer 3:"
+			       DockPanel.Dock="Top"
+			       FontWeight="Bold" />
+			<RichTextBox Name="AnswerThreeText" />
+		</DockPanel>
+	</Grid>
+
+	<Grid Grid.Row="4" Grid.Column="0">
+		<DockPanel LastChildFill="True">
+			<Label Height="25"
+			       Content="Answer 4:"
+			       DockPanel.Dock="Top"
+			       FontWeight="Bold" />
+			<RichTextBox Name="AnswerFourText" />
+		</DockPanel>
+	</Grid>
+
+	<Grid Grid.Row="5" Grid.Column="0">
+		<DockPanel LastChildFill="True">
+			<Label Height="25"
+			       Content="Answer 5:"
+			       DockPanel.Dock="Top"
+			       FontWeight="Bold" />
+			<RichTextBox Name="AnswerFiveText" />
+		</DockPanel>
+	</Grid>
+</Grid>

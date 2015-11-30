@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:Flyouts="clr-namespace:Exam_Formatter.FlyoutControls"
         xmlns:local="clr-namespace:Exam_Formatter.Windows"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200">
@@ -54,70 +55,148 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 	
-    <Grid>
+	<Controls:MetroWindow.Flyouts>
+		<Controls:FlyoutsControl>
+			<Controls:Flyout x:Name="CreateExamFlyout"></Controls:Flyout>
+			<Flyouts:CreateExamFlyout />
+		</Controls:FlyoutsControl>
+	</Controls:MetroWindow.Flyouts>
 
-        <Grid >
-            <Grid.ColumnDefinitions>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="220" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="50" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="60" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Style="{DynamicResource MetroCircleButtonStyle}" Height="50" Width="50" Click="ShowCreateExamFlyout">
+				<Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+					<Rectangle.OpacityMask>
+						<VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_new}" />
+					</Rectangle.OpacityMask>
+				</Rectangle>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock FontWeight="Bold">Create New Exam</TextBlock>
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+			<Button Style="{DynamicResource MetroCircleButtonStyle}" Height="50" Width="50">
+				<Rectangle Width="25"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+					<Rectangle.OpacityMask>
+						<VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_folder_open}" />
+					</Rectangle.OpacityMask>
+				</Rectangle>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock FontWeight="Bold">Open Exam from File</TextBlock>
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+			<Button Style="{DynamicResource MetroCircleButtonStyle}" Height="50" Width="50">
+				<Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+					<Rectangle.OpacityMask>
+						<VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_save}" />
+					</Rectangle.OpacityMask>
+				</Rectangle>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock FontWeight="Bold">Save Exam to File</TextBlock>
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+			<Button Style="{DynamicResource MetroCircleButtonStyle}" Height="50" Width="50">
+				<Rectangle Width="26"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+					<Rectangle.OpacityMask>
+						<VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_email_minimal}" />
+					</Rectangle.OpacityMask>
+				</Rectangle>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock FontWeight="Bold">Email to BLS</TextBlock>
+							<TextBlock>Saves the Exam File locally and emails at copy to Chris.</TextBlock>
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+		</StackPanel>
+
+		<StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+			<Controls:MetroAnimatedSingleRowTabControl
+						Name="QuestionTabs"
+					
+						Controls:TabControlHelper.IsUnderlined="True" Margin="0,10,0,0">
+				<TabItem Name="Q1" Header="Question 1"/>
+				<TabItem Name="Q2" Header="Question 2"/>
+				<TabItem Name="Q3" Header="Question 3"/>
+			</Controls:MetroAnimatedSingleRowTabControl>
+
+			<TextBox Controls:TextBoxHelper.Watermark="Category Name" Height="40" Margin="10,0,10,0" Width="480"/>
+		</StackPanel>
+
+		<Grid Name="CategoryQuestionGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="220" />
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="50" />
 			</Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="45" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Controls:MetroAnimatedSingleRowTabControl
-					Name="QuestionTabs"
-					Grid.Row="0" Grid.Column="1"
-					Controls:TabControlHelper.IsUnderlined="True">
-                <TabItem Name="Q1" Header="Question 1"/>
-                <TabItem Name="Q2" Header="Question 2"/>
-                <TabItem Name="Q3" Header="Question 3"/>
-            </Controls:MetroAnimatedSingleRowTabControl>
-
-            <Grid Name="CategoryQuestionGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-					<ColumnDefinition Width="220" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-                <Controls:MetroAnimatedSingleRowTabControl
+			<Controls:MetroAnimatedSingleRowTabControl
 					Name="CategoryTabs"
 							Grid.Column="0"
 							Width="200"
 						Margin="0,0,-70,0"
 							TabStripPlacement="Left">
-                    <TabControl.Resources>
-                        <Style TargetType="{x:Type TabItem}"
+				<TabControl.Resources>
+					<Style TargetType="{x:Type TabItem}"
                                        BasedOn="{StaticResource {x:Type TabItem}}">
-                            <Setter Property="HorizontalAlignment" Value="Right"/>
-                        </Style>
-                    </TabControl.Resources>
-                    <TabItem Name="C1" Header="Category 1"></TabItem>
-                    <TabItem Name="C2" Header="Category 2"></TabItem>
-                    <TabItem Name="C3" Header="Category 3"></TabItem>
-                    <TabItem Name="C4" Header="Category 4"></TabItem>
-                    <TabItem Name="C5" Header="Category 5"></TabItem>
-                    <TabItem Name="C6" Header="Category 6"></TabItem>
-                    <TabItem Name="C7" Header="Category 7"></TabItem>
-                    <TabItem Name="C8" Header="Category 8"></TabItem>
-                    <TabItem Name="C9" Header="Category 9"></TabItem>
-                    <TabItem Name="C10" Header="Category 10"></TabItem>
-                    <TabItem Name="C11" Header="Category 11"></TabItem>
-                    <TabItem Name="C12" Header="Category 12"></TabItem>
-                    <TabItem Name="C13" Header="Category 13"></TabItem>
-                    <TabItem Name="C14" Header="Category 14"></TabItem>
-                    <TabItem Name="C15" Header="Category 15"></TabItem>
-                    <TabItem Name="C16" Header="Category 16"></TabItem>
-                    <TabItem Name="C17" Header="Category 17"></TabItem>
-                    <TabItem Name="C18" Header="Category 18"></TabItem>
-                    <TabItem Name="C19" Header="Category 19"></TabItem>
-                    <TabItem Name="C20" Header="Category 20"></TabItem>
-                </Controls:MetroAnimatedSingleRowTabControl>
-			</Grid>
-			
+						<Setter Property="HorizontalAlignment" Value="Right"/>
+					</Style>
+				</TabControl.Resources>
+				<TabItem Name="C1" Header="Category 1"></TabItem>
+				<TabItem Name="C2" Header="Category 2"></TabItem>
+				<TabItem Name="C3" Header="Category 3"></TabItem>
+				<TabItem Name="C4" Header="Category 4"></TabItem>
+				<TabItem Name="C5" Header="Category 5"></TabItem>
+				<TabItem Name="C6" Header="Category 6"></TabItem>
+				<TabItem Name="C7" Header="Category 7"></TabItem>
+				<TabItem Name="C8" Header="Category 8"></TabItem>
+				<TabItem Name="C9" Header="Category 9"></TabItem>
+				<TabItem Name="C10" Header="Category 10"></TabItem>
+				<TabItem Name="C11" Header="Category 11"></TabItem>
+				<TabItem Name="C12" Header="Category 12"></TabItem>
+				<TabItem Name="C13" Header="Category 13"></TabItem>
+				<TabItem Name="C14" Header="Category 14"></TabItem>
+				<TabItem Name="C15" Header="Category 15"></TabItem>
+				<TabItem Name="C16" Header="Category 16"></TabItem>
+				<TabItem Name="C17" Header="Category 17"></TabItem>
+				<TabItem Name="C18" Header="Category 18"></TabItem>
+				<TabItem Name="C19" Header="Category 19"></TabItem>
+				<TabItem Name="C20" Header="Category 20"></TabItem>
+			</Controls:MetroAnimatedSingleRowTabControl>
 		</Grid>
-		
-        
-    </Grid>
+
+	</Grid>
 </Controls:MetroWindow>

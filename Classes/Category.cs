@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Exam_Formatter.Classes
 {
-	class Category
-	{
+	public class Category {
+		public Question[] Questions;
+
+		public Category() { Questions = new Question[2]; }
+
+		public Category(Question q) : this() { Questions = new[] {q}; }
+
+		public Category(Question[] q) : this () { Questions = q; }
 	}
 }

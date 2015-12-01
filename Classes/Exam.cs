@@ -9,6 +9,7 @@
 
 #region Using
 
+using System.Collections.Generic;
 using System.Linq;
 
 #endregion Using
@@ -25,10 +26,7 @@ namespace Exam_Formatter.Classes {
 
 		#region Public Constructors
 
-		public Exam()
-		{
-			Categories = new Category[19];
-		}
+		public Exam() { Categories = Enumerable.Repeat(new Category(), 20).ToArray(); }
 
 		public Exam(Category[] cats)
 		{

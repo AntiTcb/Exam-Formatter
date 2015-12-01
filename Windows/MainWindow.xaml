@@ -5,7 +5,6 @@
                       xmlns:Flyouts="clr-namespace:Exam_Formatter.FlyoutControls"
                       xmlns:MyControls="clr-namespace:Exam_Formatter.Controls"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                      xmlns:local="clr-namespace:Exam_Formatter.Windows"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       Title="MainWindow"
                       Width="1200"
@@ -88,6 +87,7 @@
 		            Orientation="Horizontal">
 			<Button Width="50"
 			        Height="50"
+					Name="CreateNewButton"
 			        Click="ShowCreateExamFlyout"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="20"
@@ -109,6 +109,8 @@
 			</Button>
 			<Button Width="50"
 			        Height="50"
+					Name="OpenFileButton"
+					Click="OpenFile"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="25"
 				           Height="20"
@@ -129,6 +131,8 @@
 			</Button>
 			<Button Width="50"
 			        Height="50"
+					Name="SaveFileButton"
+					Click="SaveFile"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="20"
 				           Height="20"
@@ -149,6 +153,8 @@
 			</Button>
 			<Button Width="50"
 			        Height="50"
+					Name="EmailButton"
+					Click="EmailExam"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="26"
 				           Height="20"
@@ -182,7 +188,8 @@
 				<TabItem Name="Q3" Header="Question 3" />
 			</Controls:MetroAnimatedSingleRowTabControl>
 
-			<TextBox Width="530"
+			<TextBox Name="CategoryNameTB"
+			         Width="530"
 			         Height="40"
 			         Margin="10,0,5,0"
 			         Controls:TextBoxHelper.ClearTextButton="True"
@@ -234,6 +241,8 @@
 			</Controls:MetroAnimatedSingleRowTabControl>
 		</Grid>
 
-		<MyControls:CategoryGrid Grid.Row="1" Grid.Column="1" />
+		<MyControls:CategoryGrid x:Name="CategoryGrid"
+		                         Grid.Row="1"
+		                         Grid.Column="1" />
 	</Grid>
 </Controls:MetroWindow>

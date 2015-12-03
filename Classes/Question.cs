@@ -20,9 +20,9 @@ namespace Exam_Formatter.Classes {
 	public class Question {
 		#region Public Fields + Properties
 
+		public int ID;
 		public CorrectAnswer CorrectAnswers { get; protected set; }
-		public QuestionType QuestionType { get; protected set; }
-
+		public QuestionType QuestionType { get; set; }
 		public Answer A;
 		public Answer B;
 		public Answer C;
@@ -35,15 +35,15 @@ namespace Exam_Formatter.Classes {
 
 		#endregion Public Fields + Properties
 
-		#region Protected Constructors
+		#region Public Constructors
 
-		public Question() { }
+		public Question(int id) { ID = id; }
 
-		public Question(QuestionType QT) : this() { QuestionType = QT; }
+		public Question(int ID, QuestionType QT) : this(ID) { QuestionType = QT; }
 
-		public Question(QuestionType QT, string text) : this(QT) { Text = text; }
+		public Question(int ID, QuestionType QT, string text) : this(ID, QT) { Text = text; }
 
-		public Question(QuestionType QT, string text, CorrectAnswer CA) : this(QT, text) { CorrectAnswers = CA; }
+		public Question(int ID, QuestionType QT, string text, CorrectAnswer CA) : this(ID, QT, text) { CorrectAnswers = CA; }
 
 		#endregion Protected Constructors
 

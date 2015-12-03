@@ -80,6 +80,7 @@
     <Compile Include="Classes\CardHandler.cs" />
     <Compile Include="Classes\Category.cs" />
     <Compile Include="Classes\Exam.cs" />
+    <Compile Include="Classes\ExamParser.cs" />
     <Compile Include="Classes\Question.cs" />
     <Compile Include="Controls\CategoryGrid.xaml.cs">
       <DependentUpon>CategoryGrid.xaml</DependentUpon>

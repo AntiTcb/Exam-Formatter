@@ -26,12 +26,11 @@ namespace Exam_Formatter.Classes {
 
 		#region Public Constructors
 
-		public Exam() { Categories = Enumerable.Repeat(new Category(), 20).ToArray(); }
+		public Exam() {
+			var I = 0;
+			Categories = Enumerable.Repeat(0, 20).Select(x => new Category(++I)).ToArray(); }
 
-		public Exam(Category[] cats)
-		{
-			Categories = cats;
-		}
+		public Exam(Category[] cats) { Categories = cats; }
 
 		#endregion Public Constructors
 

@@ -211,7 +211,7 @@
 			                                           Grid.Column="0"
 			                                           Width="200"
 			                                           Margin="0,0,-70,0"
-			                                           SelectionChanged="CategoryTabs_OnSelectionChanged"
+													   SelectionChanged="CategoryTabs_OnSelectionChanged"
 			                                           TabStripPlacement="Left">
 				<TabControl.Resources>
 					<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
@@ -243,6 +243,7 @@
 
 		<MyControls:CategoryGrid x:Name="CategoryGrid"
 		                         Grid.Row="1"
-		                         Grid.Column="1" />
+		                         Grid.Column="1"
+								 />
 	</Grid>
 </Controls:MetroWindow>

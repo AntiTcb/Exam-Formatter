@@ -17,33 +17,27 @@ namespace Exam_Formatter.Classes {
 
 		#region Public Fields + Properties
 
+		public int ID;
 		public Question[] Questions;
-
 		public string Name;
 
 		#endregion Public Fields + Properties
 
 		#region Public Constructors
 
-		public Category() { Questions = Enumerable.Repeat(new OneAnswer(QuestionType.MultiSingle), 3).ToArray(); }
+		public Category(int ID) {
+			var I = 0;
+			Questions = Enumerable.Repeat(0, 3).Select(x => new Question(++I, QuestionType.MultiSingle)).ToArray(); }
 
-		public Category(Question q) : this()
-		{
-			Questions = new[] { q };
-		}
+		public Category(int ID, Question q) : this(ID) { Questions = new[] { q }; }
 
-		public Category(string n) : this() { Name = n; }
+		public Category(int ID, string n) : this(ID) { Name = n; }
 
-		public Category(Question q, string n) : this(n) { Questions = new[] {q}; }
+		public Category(int ID, string n, Question q) : this(ID, n) { Questions = new[] {q}; }
 
-		public Category(Question[] q) : this()
-		{
-			Questions = q;
-		}
+		public Category(int ID, Question[] q) : this(ID) { Questions = q; }
 
-		public Category(Question[] q, string n) : this(q) {
-			Name = n;
-		}
+		public Category(int ID, Question[] q, string n) : this(ID, q) { Name = n; }
 
 		#endregion Public Constructors
 	}

@@ -9,7 +9,7 @@
 
 namespace Exam_Formatter.Classes {
 
-	public class Answer {
+	public struct Answer {
 
 		#region Public Fields + Properties
 

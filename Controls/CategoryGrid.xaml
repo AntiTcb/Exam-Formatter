@@ -73,10 +73,10 @@
 			             GroupName="QuestionType" />
 		</StackPanel>
 
-		<TextBlock Name="QuestionTextTB"
-		           Grid.Row="1"
-		           Grid.Column="1"
-		           Margin="10, 0, 10, 10" />
+		<TextBox Name="QuestionTextTB"
+		         Grid.Row="1"
+		         Grid.Column="1"
+		         Margin="10, 0, 10, 10" />
 	</Grid>
 
 	<Grid Grid.Row="1" Grid.Column="0">

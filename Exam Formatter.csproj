@@ -82,6 +82,7 @@
     <Compile Include="Classes\Exam.cs" />
     <Compile Include="Classes\ExamParser.cs" />
     <Compile Include="Classes\Question.cs" />
+    <Compile Include="Classes\WaitCursor.cs" />
     <Compile Include="Controls\CategoryGrid.xaml.cs">
       <DependentUpon>CategoryGrid.xaml</DependentUpon>
     </Compile>

@@ -13,8 +13,11 @@ using Exam_Formatter.Classes;
 using Exam_Formatter.Enums;
 using MahApps.Metro.Controls;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Microsoft.Win32;
 
 #endregion Using
 
@@ -50,6 +53,8 @@ namespace Exam_Formatter.Windows
 			CategoryGrid.MultiSelectRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.MultiSelect; };
 			CategoryGrid.MultiSingleRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.MultiSingle; };
 			CategoryGrid.TrueFalseRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.TrueFalse; };
+			CategoryGrid.MultiSingleNoShuffleRB.Checked += delegate {
+																LoadedQuestion.QuestionType = QuestionType.MultiSingleNoShuffle; };
 			LoadedQuestion = exam.Categories[0].Questions[0];
 			CurrentCategory = C1;
 			CurrentQuestion = Q1;
@@ -124,15 +129,16 @@ namespace Exam_Formatter.Windows
 					CategoryGrid.TrueFalseRB.IsChecked = true;
 					break;
 
+				case QuestionType.MultiSingleNoShuffle:
+					CategoryGrid.MultiSingleNoShuffleRB.IsChecked = true;
+					break;
+
 				default:
 					throw new ArgumentOutOfRangeException(nameof(QT), QT, null);
 			}
 		}
 
-		void ShowCreateExamFlyout(object Sender, RoutedEventArgs E)
-		{
-			CreateExamFlyout.IsOpen = true;
-		}
+		void ShowCreateExamFlyout(object Sender, RoutedEventArgs E) { CreateExamFlyout.IsOpen = true; }
 
 		#endregion Private Methods
 
@@ -140,12 +146,17 @@ namespace Exam_Formatter.Windows
 		{
 		}
 
-		void OpenFile(object Sender, RoutedEventArgs E)
-		{
+		async void OpenFile(object Sender, RoutedEventArgs E) {
+			var OFD = new OpenFileDialog();
+			if (OFD.ShowDialog() != true) return;
+			using (new WaitCursor()) { await ExamParser.ReadExamFile(OFD.FileName, exam); }
 		}
 
 		void SaveFile(object Sender, RoutedEventArgs E)
 		{
+
 		}
 	}
+
+	
 }

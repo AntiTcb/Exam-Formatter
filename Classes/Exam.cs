@@ -18,6 +18,8 @@ namespace Exam_Formatter.Classes {
 
 	public class Exam {
 
+		public string Name;
+
 		#region Public Fields + Properties
 
 		public Category[] Categories;

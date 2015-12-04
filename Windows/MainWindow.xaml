@@ -8,7 +8,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       Title="MainWindow"
                       Width="1200"
-                      Height="800"
+                      Height="1000"
                       mc:Ignorable="d">
 
 	<Controls:MetroWindow.RightWindowCommands>
@@ -85,9 +85,9 @@
 		            Grid.Column="0"
 		            HorizontalAlignment="Center"
 		            Orientation="Horizontal">
-			<Button Width="50"
+			<Button Name="CreateNewButton"
+			        Width="50"
 			        Height="50"
-					Name="CreateNewButton"
 			        Click="ShowCreateExamFlyout"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="20"
@@ -107,10 +107,10 @@
 					</ToolTip>
 				</Button.ToolTip>
 			</Button>
-			<Button Width="50"
+			<Button Name="OpenFileButton"
+			        Width="50"
 			        Height="50"
-					Name="OpenFileButton"
-					Click="OpenFile"
+			        Click="OpenFile"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="25"
 				           Height="20"
@@ -129,10 +129,10 @@
 					</ToolTip>
 				</Button.ToolTip>
 			</Button>
-			<Button Width="50"
+			<Button Name="SaveFileButton"
+			        Width="50"
 			        Height="50"
-					Name="SaveFileButton"
-					Click="SaveFile"
+			        Click="SaveFile"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="20"
 				           Height="20"
@@ -151,10 +151,10 @@
 					</ToolTip>
 				</Button.ToolTip>
 			</Button>
-			<Button Width="50"
+			<Button Name="EmailButton"
+			        Width="50"
 			        Height="50"
-					Name="EmailButton"
-					Click="EmailExam"
+			        Click="EmailExam"
 			        Style="{DynamicResource MetroCircleButtonStyle}">
 				<Rectangle Width="26"
 				           Height="20"
@@ -211,7 +211,7 @@
 			                                           Grid.Column="0"
 			                                           Width="200"
 			                                           Margin="0,0,-70,0"
-													   SelectionChanged="CategoryTabs_OnSelectionChanged"
+			                                           SelectionChanged="CategoryTabs_OnSelectionChanged"
 			                                           TabStripPlacement="Left">
 				<TabControl.Resources>
 					<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
@@ -243,7 +243,6 @@
 
 		<MyControls:CategoryGrid x:Name="CategoryGrid"
 		                         Grid.Row="1"
-		                         Grid.Column="1"
-								 />
+		                         Grid.Column="1" />
 	</Grid>
 </Controls:MetroWindow>

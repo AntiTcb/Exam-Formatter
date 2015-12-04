@@ -28,8 +28,6 @@ namespace Exam_Formatter.Classes {
 		public Answer C;
 		public Answer D;
 		public Answer E;
-		public Answer True;
-		public Answer False;
 
 		public string Text;
 
@@ -49,20 +47,7 @@ namespace Exam_Formatter.Classes {
 
 		#region Public Methods
 
-		public void SetCorrectAnswer(CorrectAnswer Letter) {
-			switch (QuestionType)
-			{
-				case QuestionType.MultiSingle:
-
-					break;
-				case QuestionType.MultiSelect:
-					break;
-				case QuestionType.TrueFalse:
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
+		public void SetCorrectAnswer(CorrectAnswer Letter) { CorrectAnswers = Letter; }
 
 		#endregion Public Methods
 	}

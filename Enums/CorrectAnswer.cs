@@ -14,6 +14,9 @@ namespace Exam_Formatter.Enums {
 		ABC,
 		ABD,
 		ABE,
+		ACD,
+		ACE,
+		ADE,
 		ABCD,
 		ABCE,
 		ABCDE,
@@ -23,6 +26,7 @@ namespace Exam_Formatter.Enums {
 		BE,
 		BCD,
 		BCE,
+		BDE,
 		BCDE,
 		C,
 		CD,
@@ -30,6 +34,7 @@ namespace Exam_Formatter.Enums {
 		CDE,
 		D,
 		DE,
+		E,
 		True,
 		False
 	}

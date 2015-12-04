@@ -25,8 +25,9 @@ namespace Exam_Formatter.Classes {
 
 		#region Public Constructors
 
-		public Category(int ID) {
+		public Category(int id) {
 			var I = 0;
+			ID = id;
 			Questions = Enumerable.Repeat(0, 3).Select(x => new Question(++I, QuestionType.MultiSingle)).ToArray(); }
 
 		public Category(int ID, Question q) : this(ID) { Questions = new[] { q }; }

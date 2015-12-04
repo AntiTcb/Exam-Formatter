@@ -11,6 +11,7 @@ namespace Exam_Formatter.Enums {
 
 	public enum QuestionType {
 		MultiSingle,
+		MultiSingleNoShuffle,
 		MultiSelect,
 		TrueFalse
 	}

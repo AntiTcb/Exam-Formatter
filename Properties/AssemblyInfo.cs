@@ -22,9 +22,9 @@ using System.Windows;
 [assembly : AssemblyTitle("Exam Formatter")]
 [assembly : AssemblyDescription("")]
 [assembly : AssemblyConfiguration("")]
-[assembly : AssemblyCompany("")]
-[assembly : AssemblyProduct("Exam Formatter")]
-[assembly : AssemblyCopyright("Copyright ©  2015")]
+[assembly : AssemblyCompany("Alex Gravely")]
+[assembly : AssemblyProduct("AntiTcb")]
+[assembly : AssemblyCopyright("AntiTcb.com Copyright ©  2015")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 

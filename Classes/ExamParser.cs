@@ -16,6 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Exam_Formatter.Enums;
+using Exam_Formatter.Windows;
 using static System.Text.RegularExpressions.Regex;
 
 #endregion
@@ -45,16 +46,25 @@ namespace Exam_Formatter.Classes {
 							ThisQuestion.AppendLine(Line);
 							if (IsMatch(Line, "[0-1]{5}")) { QuestionDone = true; }
 						}
-						Console.WriteLine($"Question: {i}");
-						Console.WriteLine(ThisQuestion.ToString());
 						await ParseQuestion(exam, Category, i, ThisQuestion.ToString());
 						QuestionDone = false;
 						ThisQuestion = new StringBuilder();
 					}
 					Category += 1;
-					Console.WriteLine($"Category: {Category}");
 					await SR.ReadLineAsync();
 				}
+			}
+		}
+
+		public static async Task WriteExamFile(string filepath, Exam exam) {
+			using (var SW = new StreamWriter(filepath))
+			{
+				await SW.WriteLineAsync($"{exam.Name}\n");
+				foreach (var Cat in exam.Categories)
+				{
+					await SW.WriteLineAsync(Cat.ToString());
+				}
+
 			}
 		}
 

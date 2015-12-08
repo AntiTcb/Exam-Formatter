@@ -14,6 +14,7 @@ using Exam_Formatter.Enums;
 using MahApps.Metro.Controls;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -47,17 +48,69 @@ namespace Exam_Formatter.Windows
 			QuestionTabs.SelectionChanged -= QuestionTabs_OnSelectionChanged;
 			C1.IsSelected = true;
 			Q1.IsSelected = true;
+			SetEventHandlers();
+
+			LoadedQuestion = exam.Categories[0].Questions[0];
+			CurrentCategory = C1;
+			CurrentQuestion = Q1;
+		}
+
+		void SetEventHandlers() {
 			CategoryTabs.SelectionChanged += CategoryTabs_OnSelectionChanged;
 			QuestionTabs.SelectionChanged += QuestionTabs_OnSelectionChanged;
 
 			CategoryGrid.MultiSelectRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.MultiSelect; };
 			CategoryGrid.MultiSingleRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.MultiSingle; };
 			CategoryGrid.TrueFalseRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.TrueFalse; };
-			CategoryGrid.MultiSingleNoShuffleRB.Checked += delegate {
-																LoadedQuestion.QuestionType = QuestionType.MultiSingleNoShuffle; };
-			LoadedQuestion = exam.Categories[0].Questions[0];
-			CurrentCategory = C1;
-			CurrentQuestion = Q1;
+			CategoryGrid.MultiSingleNoShuffleRB.Checked +=
+				delegate { LoadedQuestion.QuestionType = QuestionType.MultiSingleNoShuffle; };
+			CategoryGrid.Answer1CB.Checked += delegate {
+												if (CategoryGrid.Answer1CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
+													!(bool) CategoryGrid.Answer1CB.IsChecked) return;
+												CategoryGrid.Answer2CB.IsChecked = false;
+												CategoryGrid.Answer3CB.IsChecked = false;
+												CategoryGrid.Answer4CB.IsChecked = false;
+												CategoryGrid.Answer5CB.IsChecked = false;
+											};
+			CategoryGrid.Answer2CB.Checked += delegate {
+												if (CategoryGrid.Answer2CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
+													!(bool) CategoryGrid.Answer2CB.IsChecked)
+													return;
+												CategoryGrid.Answer1CB.IsChecked = false;
+												CategoryGrid.Answer3CB.IsChecked = false;
+												CategoryGrid.Answer4CB.IsChecked = false;
+												CategoryGrid.Answer5CB.IsChecked = false;
+											};
+
+			CategoryGrid.Answer3CB.Checked += delegate {
+												if (CategoryGrid.Answer3CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
+													!(bool) CategoryGrid.Answer3CB.IsChecked)
+													return;
+												CategoryGrid.Answer1CB.IsChecked = false;
+												CategoryGrid.Answer2CB.IsChecked = false;
+												CategoryGrid.Answer4CB.IsChecked = false;
+												CategoryGrid.Answer5CB.IsChecked = false;
+											};
+
+			CategoryGrid.Answer4CB.Checked += delegate {
+												if (CategoryGrid.Answer4CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
+													!(bool) CategoryGrid.Answer4CB.IsChecked)
+													return;
+												CategoryGrid.Answer1CB.IsChecked = false;
+												CategoryGrid.Answer2CB.IsChecked = false;
+												CategoryGrid.Answer3CB.IsChecked = false;
+												CategoryGrid.Answer5CB.IsChecked = false;
+											};
+
+			CategoryGrid.Answer5CB.Checked += delegate {
+												if (CategoryGrid.Answer5CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
+													!(bool) CategoryGrid.Answer5CB.IsChecked)
+													return;
+												CategoryGrid.Answer1CB.IsChecked = false;
+												CategoryGrid.Answer2CB.IsChecked = false;
+												CategoryGrid.Answer3CB.IsChecked = false;
+												CategoryGrid.Answer4CB.IsChecked = false;
+											};
 		}
 
 		#endregion Public Constructors
@@ -76,8 +129,63 @@ namespace Exam_Formatter.Windows
 			if (CurrentCategory != null && CurrentQuestion != null) LoadQuestion();
 		}
 
-		void LoadQuestion()
-		{
+		void LoadCorrectAnswers() {
+			var Answers = LoadedQuestion.GetCorrectAnswerString();
+			switch (LoadedQuestion.QuestionType)
+			{
+				case QuestionType.MultiSingle:
+				case QuestionType.MultiSingleNoShuffle:
+					switch (Answers.IndexOf("1", StringComparison.Ordinal))
+					{
+						case 0:
+							CategoryGrid.Answer1CB.IsChecked = true;
+							break;
+						case 1:
+							CategoryGrid.Answer2CB.IsChecked = true;
+							break;
+						case 2:
+							CategoryGrid.Answer3CB.IsChecked = true;
+							break;
+						case 3:
+							CategoryGrid.Answer4CB.IsChecked = true;
+							break;
+						case 4:
+							CategoryGrid.Answer5CB.IsChecked = true;
+							break;
+						default:
+							throw new ArgumentOutOfRangeException();
+					}
+					break;
+
+				case QuestionType.MultiSelect:
+					CategoryGrid.Answer1CB.IsChecked = Answers[0].ToString() == "1";
+					CategoryGrid.Answer2CB.IsChecked = Answers[1].ToString() == "1";
+					CategoryGrid.Answer3CB.IsChecked = Answers[2].ToString() == "1";
+					CategoryGrid.Answer4CB.IsChecked = Answers[3].ToString() == "1";
+					CategoryGrid.Answer5CB.IsChecked = Answers[4].ToString() == "1";
+					break;
+
+				case QuestionType.TrueFalse:
+					if (Answers.IndexOf("1", StringComparison.Ordinal) == 0) { CategoryGrid.Answer1CB.IsChecked = true; }
+					else { CategoryGrid.Answer2CB.IsChecked = true;}
+					break;
+
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		void SaveCorrectAnswers() {
+			var FinalAnswer = "";
+			if (CategoryGrid.Answer1CB.IsChecked != null && (bool) CategoryGrid.Answer1CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "A"); }
+			if (CategoryGrid.Answer2CB.IsChecked != null && (bool)CategoryGrid.Answer2CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "B"); }
+			if (CategoryGrid.Answer3CB.IsChecked != null && (bool)CategoryGrid.Answer3CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "C"); }
+			if (CategoryGrid.Answer4CB.IsChecked != null && (bool)CategoryGrid.Answer4CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "D"); }
+			if (CategoryGrid.Answer5CB.IsChecked != null && (bool)CategoryGrid.Answer5CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "E"); }
+			LoadedQuestion.SetCorrectAnswer(FinalAnswer);
+		}
+
+		void LoadQuestion() {
 			LoadedQuestion = exam.Categories[GetIDNum(CurrentCategory?.Name)].Questions[GetIDNum(CurrentQuestion?.Name)];
 
 			CategoryGrid.QuestionTextTB.Text = LoadedQuestion.Text;
@@ -88,20 +196,19 @@ namespace Exam_Formatter.Windows
 			CategoryGrid.AnswerFiveText.Text = LoadedQuestion.E.Text;
 			SetQuestionType(LoadedQuestion.QuestionType);
 			CategoryNameTB.Text = exam.Categories[GetIDNum(CurrentCategory?.Name)].Name;
+			LoadCorrectAnswers();
 		}
 
-		void QuestionTabs_OnSelectionChanged(object O, SelectionChangedEventArgs E)
-		{
-			var OldQuestion = (TabItem)E.RemovedItems[0];
+		void QuestionTabs_OnSelectionChanged(object O, SelectionChangedEventArgs E) {
+			var OldQuestion = (TabItem) E.RemovedItems[0];
 			if (OldQuestion != null && CurrentCategory != null) SaveQuestion(CurrentCategory, OldQuestion);
 
-			var TabControl = (MetroAnimatedSingleRowTabControl)O;
-			CurrentQuestion = (TabItem)TabControl.SelectedItem;
+			var TabControl = (MetroAnimatedSingleRowTabControl) O;
+			CurrentQuestion = (TabItem) TabControl.SelectedItem;
 			if (CurrentCategory != null && CurrentQuestion != null) LoadQuestion();
 		}
 
-		void SaveQuestion(IFrameworkInputElement category, IFrameworkInputElement question)
-		{
+		void SaveQuestion(IFrameworkInputElement category, IFrameworkInputElement question) {
 			LoadedQuestion = exam.Categories[GetIDNum(category?.Name)].Questions[GetIDNum(question?.Name)];
 
 			LoadedQuestion.Text = CategoryGrid.QuestionTextTB.Text;
@@ -111,10 +218,10 @@ namespace Exam_Formatter.Windows
 			LoadedQuestion.D.Text = CategoryGrid.AnswerFourText.Text;
 			LoadedQuestion.E.Text = CategoryGrid.AnswerFiveText.Text;
 			exam.Categories[GetIDNum(category?.Name)].Name = CategoryNameTB.Text;
+			SaveCorrectAnswers();
 		}
 
-		void SetQuestionType(QuestionType QT)
-		{
+		void SetQuestionType(QuestionType QT) {
 			switch (QT)
 			{
 				case QuestionType.MultiSingle:
@@ -142,21 +249,26 @@ namespace Exam_Formatter.Windows
 
 		#endregion Private Methods
 
-		void EmailExam(object Sender, RoutedEventArgs E)
-		{
-		}
+		void EmailExam(object Sender, RoutedEventArgs E) { }
 
 		async void OpenFile(object Sender, RoutedEventArgs E) {
 			var OFD = new OpenFileDialog();
 			if (OFD.ShowDialog() != true) return;
-			using (new WaitCursor()) { await ExamParser.ReadExamFile(OFD.FileName, exam); }
+			using (new WaitCursor())
+			{
+				await ExamParser.ReadExamFile(OFD.FileName, exam);
+				LoadQuestion();
+			}
 		}
 
-		void SaveFile(object Sender, RoutedEventArgs E)
-		{
-
+		async void SaveFile(object Sender, RoutedEventArgs E) {
+			var SFD = new SaveFileDialog();
+			if (SFD.ShowDialog() != true) return;
+			using (new WaitCursor())
+			{
+				SaveQuestion(CurrentCategory, CurrentQuestion);
+				await ExamParser.WriteExamFile(SFD.FileName, exam);
+			}
 		}
 	}
-
-	
 }

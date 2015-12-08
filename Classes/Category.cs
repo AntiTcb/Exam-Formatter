@@ -7,8 +7,10 @@
 
 #endregion Header
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Exam_Formatter.Enums;
 
 namespace Exam_Formatter.Classes {
@@ -39,6 +41,21 @@ namespace Exam_Formatter.Classes {
 		public Category(int ID, Question[] q) : this(ID) { Questions = q; }
 
 		public Category(int ID, Question[] q, string n) : this(ID, q) { Name = n; }
+
+		#region Overrides of Object
+
+		public override string ToString() {
+			var SB = new StringBuilder();
+
+			foreach (var Q in Questions)
+			{
+				SB.AppendLine($"#{ID}.{Q.ID}");
+				SB.AppendLine(Q.ToString());
+			}
+			return $"{SB}\n";
+		}
+
+		#endregion
 
 		#endregion Public Constructors
 	}

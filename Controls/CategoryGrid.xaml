@@ -6,6 +6,7 @@
       d:DesignHeight="750"
       d:DesignWidth="650"
       mc:Ignorable="d">
+
 	<Grid.RowDefinitions>
 		<RowDefinition Height="Auto" />
 		<RowDefinition Height="*" />
@@ -16,10 +17,12 @@
 	</Grid.RowDefinitions>
 	<Grid.ColumnDefinitions>
 		<ColumnDefinition Width="*" />
-		<ColumnDefinition Width="20" />
+		<ColumnDefinition Width="Auto" />
 	</Grid.ColumnDefinitions>
 
-	<Grid Grid.Row="0" Grid.Column="0">
+	<Grid Grid.Row="0"
+	      Grid.Column="0"
+	      Grid.ColumnSpan="2">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="25" />
 			<RowDefinition Height="*" />
@@ -137,4 +140,26 @@
 			<TextBox Name="AnswerFiveText" />
 		</DockPanel>
 	</Grid>
+
+
+	<CheckBox Name="Answer1CB"
+	          Grid.Row="1"
+	          Grid.Column="1"
+	          Margin="6, 20, 0, 0" />
+	<CheckBox Name="Answer2CB"
+	          Grid.Row="2"
+	          Grid.Column="1"
+	          Margin="6, 20, 0, 0" />
+	<CheckBox Name="Answer3CB"
+	          Grid.Row="3"
+	          Grid.Column="1"
+	          Margin="6, 20, 0, 0" />
+	<CheckBox Name="Answer4CB"
+	          Grid.Row="4"
+	          Grid.Column="1"
+	          Margin="6, 20, 0, 0" />
+	<CheckBox Name="Answer5CB"
+	          Grid.Row="5"
+	          Grid.Column="1"
+	          Margin="6, 20, 0, 0" />
 </Grid>

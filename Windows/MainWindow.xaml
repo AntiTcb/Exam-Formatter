@@ -6,7 +6,7 @@
                       xmlns:MyControls="clr-namespace:Exam_Formatter.Controls"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      Title="MainWindow"
+                      Title="Exam Formatter"
                       Width="1200"
                       Height="1000"
                       mc:Ignorable="d">
@@ -176,11 +176,12 @@
 			</Button>
 		</StackPanel>
 
-		<StackPanel Grid.Row="0"
+		<DockPanel Grid.Row="0"
 		            Grid.Column="1"
-		            Orientation="Horizontal">
+		            LastChildFill="True">
 			<Controls:MetroAnimatedSingleRowTabControl Name="QuestionTabs"
 			                                           Margin="5,10,0,0"
+													   DockPanel.Dock="Left"
 			                                           Controls:TabControlHelper.IsUnderlined="True"
 			                                           SelectionChanged="QuestionTabs_OnSelectionChanged">
 				<TabItem Name="Q1" Header="Question 1" />
@@ -189,15 +190,15 @@
 			</Controls:MetroAnimatedSingleRowTabControl>
 
 			<TextBox Name="CategoryNameTB"
-			         Width="530"
 			         Height="40"
 			         Margin="10,0,5,0"
+			         HorizontalAlignment="Stretch"
 			         Controls:TextBoxHelper.ClearTextButton="True"
 			         Controls:TextBoxHelper.UseFloatingWatermark="False"
 			         Controls:TextBoxHelper.Watermark="Category Name"
 			         FontFamily="Segoe UI"
 			         FontSize="20" />
-		</StackPanel>
+		</DockPanel>
 
 		<Grid Name="CategoryQuestionGrid"
 		      Grid.Row="1"

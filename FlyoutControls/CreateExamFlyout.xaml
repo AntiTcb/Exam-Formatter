@@ -10,19 +10,22 @@
                  d:DesignHeight="800"
                  d:DesignWidth="300"
                  mc:Ignorable="d">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-		<StackPanel>
-			<Label Content="Exam Name:" />
-			<TextBox Margin="5" />
-			<Button Width="50"
-			        Margin="0,0,5,0"
-			        HorizontalAlignment="Right"
-			        Content="Create" />
-		</StackPanel>
-	</Grid>
+        <StackPanel>
+            <Label Content="Exam Name:" />
+            <TextBox Name="ExamNameTextbox"
+                     Margin="5"
+                     controls:TextBoxHelper.Watermark="Exam Name" />
+            <Button Name="CreateExamButton"
+                    Width="50"
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    Content="Create" />
+        </StackPanel>
+    </Grid>
 </controls:Flyout>

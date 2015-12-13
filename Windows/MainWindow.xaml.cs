@@ -13,11 +13,9 @@ using Exam_Formatter.Classes;
 using Exam_Formatter.Enums;
 using MahApps.Metro.Controls;
 using System;
-using System.IO;
-using System.Linq;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Microsoft.Win32;
 
 #endregion Using
@@ -36,20 +34,34 @@ namespace Exam_Formatter.Windows
 		Exam exam;
 		Question LoadedQuestion;
 
-		#endregion Private Fields + Properties
+	    bool _enableControls;
+
+	    public bool EnableControls
+	    {
+	        get
+	        {
+	            return _enableControls;
+	        }
+	        set
+	        {
+	           CategoryGrid.SetControlsEnabled(value);
+               _enableControls = value;
+            }
+	    }
+
+	    #endregion Private Fields + Properties
 
 		#region Public Constructors
 
-		public MainWindow()
-		{
+		public MainWindow() {
 			exam = new Exam();
 			InitializeComponent();
-			CategoryTabs.SelectionChanged -= CategoryTabs_OnSelectionChanged;
+            EnableControls = false;
+            CategoryTabs.SelectionChanged -= CategoryTabs_OnSelectionChanged;
 			QuestionTabs.SelectionChanged -= QuestionTabs_OnSelectionChanged;
 			C1.IsSelected = true;
 			Q1.IsSelected = true;
 			SetEventHandlers();
-
 			LoadedQuestion = exam.Categories[0].Questions[0];
 			CurrentCategory = C1;
 			CurrentQuestion = Q1;
@@ -111,6 +123,10 @@ namespace Exam_Formatter.Windows
 												CategoryGrid.Answer3CB.IsChecked = false;
 												CategoryGrid.Answer4CB.IsChecked = false;
 											};
+		    NewExamFlyout.IsCreatingExam += delegate {
+		                                        exam.Name = NewExamFlyout.ExamNameTextbox.Text;
+		                                        EnableControls = true;
+		                                    };
 		}
 
 		#endregion Public Constructors
@@ -127,6 +143,7 @@ namespace Exam_Formatter.Windows
 			var NewTabControl = (MetroAnimatedSingleRowTabControl)O;
 			CurrentCategory = (TabItem)NewTabControl.SelectedItem;
 			if (CurrentCategory != null && CurrentQuestion != null) LoadQuestion();
+		    QuestionTabs.SelectedIndex = 0;
 		}
 
 		void LoadCorrectAnswers() {
@@ -197,6 +214,7 @@ namespace Exam_Formatter.Windows
 			SetQuestionType(LoadedQuestion.QuestionType);
 			CategoryNameTB.Text = exam.Categories[GetIDNum(CurrentCategory?.Name)].Name;
 			LoadCorrectAnswers();
+		    EnableControls = true;
 		}
 
 		void QuestionTabs_OnSelectionChanged(object O, SelectionChangedEventArgs E) {
@@ -245,17 +263,18 @@ namespace Exam_Formatter.Windows
 			}
 		}
 
-		void ShowCreateExamFlyout(object Sender, RoutedEventArgs E) { CreateExamFlyout.IsOpen = true; }
+		void ShowCreateExamFlyout(object Sender, RoutedEventArgs E) { NewExamFlyout.IsOpen = true; }
 
 		#endregion Private Methods
 
 		void EmailExam(object Sender, RoutedEventArgs E) { }
 
 		async void OpenFile(object Sender, RoutedEventArgs E) {
-			var OFD = new OpenFileDialog();
+			var OFD = new OpenFileDialog {Filter = "Text files (*.txt)|*.txt"};
 			if (OFD.ShowDialog() != true) return;
 			using (new WaitCursor())
 			{
+			    exam = new Exam();
 				await ExamParser.ReadExamFile(OFD.FileName, exam);
 				LoadQuestion();
 			}
@@ -268,6 +287,7 @@ namespace Exam_Formatter.Windows
 			{
 				SaveQuestion(CurrentCategory, CurrentQuestion);
 				await ExamParser.WriteExamFile(SFD.FileName, exam);
+                
 			}
 		}
 	}

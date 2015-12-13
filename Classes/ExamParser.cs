@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -32,18 +33,22 @@ namespace Exam_Formatter.Classes {
 				var ThisQuestion = new StringBuilder();
 				var QuestionDone = false;
 
+				// Exam Name
 				exam.Name = await SR.ReadLineAsync();
 				await SR.ReadLineAsync();
 
 				while (!SR.EndOfStream)
 				{
 					if (Category == 20) { return;}
+					// Categories
 					for (var i = 0 ; i <= 2 ; i += 1)
 					{
+						// Questions
 						while (!QuestionDone)
 						{
-							var Line = await SR.ReadLineAsync();
+							var Line = ConvertFromHTML(await SR.ReadLineAsync());
 							ThisQuestion.AppendLine(Line);
+							// Find the last line of the question
 							if (IsMatch(Line, "[0-1]{5}")) { QuestionDone = true; }
 						}
 						await ParseQuestion(exam, Category, i, ThisQuestion.ToString());
@@ -62,7 +67,7 @@ namespace Exam_Formatter.Classes {
 				await SW.WriteLineAsync($"{exam.Name}\n");
 				foreach (var Cat in exam.Categories)
 				{
-					await SW.WriteLineAsync(Cat.ToString());
+					await SW.WriteLineAsync(ConvertToHTML(Cat.ToString()));
 				}
 
 			}
@@ -73,17 +78,17 @@ namespace Exam_Formatter.Classes {
 		#region Private Methods
 
 		[SuppressMessage("ReSharper", "SwitchStatementMissingSomeCases")]
-		static CorrectAnswer ParseAnswers(QuestionType QT, string AnswerLine) {
+		static CorrectAnswer ParseAnswers(string AnswerLine) {
 			switch (new Regex(Escape("1")).Matches(AnswerLine).Count)
 			{
 				case 1:
 					switch (AnswerLine.IndexOf("1", StringComparison.Ordinal))
 					{
 						case 0:
-							return QT == QuestionType.TrueFalse ? CorrectAnswer.True : CorrectAnswer.A;
+							return CorrectAnswer.A;
 
 						case 1:
-							return QT == QuestionType.TrueFalse ? CorrectAnswer.False : CorrectAnswer.B;
+							return CorrectAnswer.B;
 
 						case 2:
 							return CorrectAnswer.C;
@@ -200,7 +205,7 @@ namespace Exam_Formatter.Classes {
 				switch (CurrentQuestion.QuestionType)
 				{
 					case QuestionType.TrueFalse:
-						CurrentQuestion.SetCorrectAnswer(ParseAnswers(CurrentQuestion.QuestionType, await SR.ReadLineAsync()));
+						CurrentQuestion.SetCorrectAnswer(ParseAnswers(await SR.ReadLineAsync()));
 						return;
 
 					default:
@@ -209,6 +214,7 @@ namespace Exam_Formatter.Classes {
 						CurrentQuestion.C.Text = await SR.ReadLineAsync();
 						CurrentQuestion.D.Text = await SR.ReadLineAsync();
 						CurrentQuestion.E.Text = await SR.ReadLineAsync();
+						CurrentQuestion.SetCorrectAnswer(await SR.ReadLineAsync());
 						return;
 				}
 			}
@@ -233,6 +239,45 @@ namespace Exam_Formatter.Classes {
 					throw new ArgumentOutOfRangeException(nameof(QT), QT, null);
 			}
 		}
+
+	    public static string ConvertToHTML(string text) {
+	        string FinalResult;
+            try
+	        {
+	            var Pattern = new[] {"<card>", "</card>"};
+	            var Replacement = new[] {"<font color=\"#0000FF\"><u><a href=\".....\">", "</a></u></font>"};
+	            var Reg = new Regex(Pattern[0]);
+	            var FirstPass = Reg.Replace(text, Replacement[0]);
+	            Reg = new Regex(Pattern[1]);
+	            FinalResult = Reg.Replace(FirstPass, Replacement[1]);
+	        }
+	        catch (Exception e)
+	        {
+	            Console.WriteLine(e);
+	            FinalResult = string.Empty;
+	        }
+	        return FinalResult;
+	    }
+
+	    public static string ConvertFromHTML(string text) {
+	        string FinalResult;
+	        try
+	        {
+	            var Pattern = new[] {"<.+'>", "</.+>"};
+	            var Replacement = new[] {"<card>", "</card>"};
+	            var Reg = new Regex(Pattern[0]);
+	            var FirstPass = Reg.Replace(text, Replacement[0]);
+	            Reg = new Regex(Pattern[1]);
+	            FinalResult = Reg.Replace(FirstPass, Replacement[1]);
+	        }
+	        catch (Exception e)
+	        {
+	            Console.WriteLine(e);
+	            FinalResult = string.Empty;
+	        }
+	        return FinalResult;
+	    }
+        
 
 		#endregion Private Methods
 	}

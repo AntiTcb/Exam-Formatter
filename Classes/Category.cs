@@ -50,7 +50,8 @@ namespace Exam_Formatter.Classes {
 			foreach (var Q in Questions)
 			{
 				SB.AppendLine($"#{ID}.{Q.ID}");
-				SB.AppendLine(Q.ToString());
+				SB.Append(Q);
+                Console.WriteLine($"{ID}.{Q.ID}");
 			}
 			return $"{SB}\n";
 		}

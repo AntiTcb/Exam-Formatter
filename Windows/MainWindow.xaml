@@ -9,241 +9,241 @@
                       Title="Exam Formatter"
                       Width="1200"
                       Height="1000"
+                      WindowStartupLocation="CenterScreen"
                       mc:Ignorable="d">
 
-	<Controls:MetroWindow.RightWindowCommands>
-		<Controls:WindowCommands>
-			<Button>
-				<StackPanel Orientation="Horizontal">
-					<Rectangle Width="20"
-					           Height="20"
-					           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
-					                          Path=Foreground}">
-						<Rectangle.OpacityMask>
-							<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
-						</Rectangle.OpacityMask>
-					</Rectangle>
-					<TextBlock Margin="4 0 0 0"
-					           VerticalAlignment="Center"
-					           Text="Settings" />
-				</StackPanel>
-			</Button>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
+                                              Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="Settings" />
+                </StackPanel>
+            </Button>
 
-			<Button>
-				<StackPanel Orientation="Horizontal">
-					<Rectangle Width="20"
-					           Height="20"
-					           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
-					                          Path=Foreground}">
-						<Rectangle.OpacityMask>
-							<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_money}" />
-						</Rectangle.OpacityMask>
-					</Rectangle>
-					<TextBlock Margin="4 0 0 0"
-					           VerticalAlignment="Center"
-					           Text="Donate" />
-				</StackPanel>
-			</Button>
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
+                                              Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_money}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="Donate" />
+                </StackPanel>
+            </Button>
 
-			<Button>
-				<StackPanel Orientation="Horizontal">
-					<Rectangle Width="20"
-					           Height="20"
-					           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
-					                          Path=Foreground}">
-						<Rectangle.OpacityMask>
-							<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_browser}" />
-						</Rectangle.OpacityMask>
-					</Rectangle>
-					<TextBlock Margin="4 0 0 0"
-					           VerticalAlignment="Center"
-					           Text="Dueling Network" />
-				</StackPanel>
-			</Button>
-		</Controls:WindowCommands>
-	</Controls:MetroWindow.RightWindowCommands>
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
+                                              Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_browser}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="Dueling Network" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
 
-	<Controls:MetroWindow.Flyouts>
-		<Controls:FlyoutsControl>
-			<Controls:Flyout x:Name="CreateExamFlyout" />
-			<Flyouts:CreateExamFlyout />
-		</Controls:FlyoutsControl>
-	</Controls:MetroWindow.Flyouts>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Flyouts:CreateExamFlyout x:Name="NewExamFlyout" />
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
 
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="220" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="20" />
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
 
-		<StackPanel Grid.Row="0"
-		            Grid.Column="0"
-		            HorizontalAlignment="Center"
-		            Orientation="Horizontal">
-			<Button Name="CreateNewButton"
-			        Width="50"
-			        Height="50"
-			        Click="ShowCreateExamFlyout"
-			        Style="{DynamicResource MetroCircleButtonStyle}">
-				<Rectangle Width="20"
-				           Height="20"
-				           Fill="{Binding Path=Foreground,
-				                          RelativeSource={RelativeSource FindAncestor,
-				                                                         AncestorType={x:Type Button}}}">
-					<Rectangle.OpacityMask>
-						<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_new}" />
-					</Rectangle.OpacityMask>
-				</Rectangle>
-				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock FontWeight="Bold">Create New Exam</TextBlock>
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
-			</Button>
-			<Button Name="OpenFileButton"
-			        Width="50"
-			        Height="50"
-			        Click="OpenFile"
-			        Style="{DynamicResource MetroCircleButtonStyle}">
-				<Rectangle Width="25"
-				           Height="20"
-				           Fill="{Binding Path=Foreground,
-				                          RelativeSource={RelativeSource FindAncestor,
-				                                                         AncestorType={x:Type Button}}}">
-					<Rectangle.OpacityMask>
-						<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
-					</Rectangle.OpacityMask>
-				</Rectangle>
-				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock FontWeight="Bold">Open Exam from File</TextBlock>
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
-			</Button>
-			<Button Name="SaveFileButton"
-			        Width="50"
-			        Height="50"
-			        Click="SaveFile"
-			        Style="{DynamicResource MetroCircleButtonStyle}">
-				<Rectangle Width="20"
-				           Height="20"
-				           Fill="{Binding Path=Foreground,
-				                          RelativeSource={RelativeSource FindAncestor,
-				                                                         AncestorType={x:Type Button}}}">
-					<Rectangle.OpacityMask>
-						<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}" />
-					</Rectangle.OpacityMask>
-				</Rectangle>
-				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock FontWeight="Bold">Save Exam to File</TextBlock>
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
-			</Button>
-			<Button Name="EmailButton"
-			        Width="50"
-			        Height="50"
-			        Click="EmailExam"
-			        Style="{DynamicResource MetroCircleButtonStyle}">
-				<Rectangle Width="26"
-				           Height="20"
-				           Fill="{Binding Path=Foreground,
-				                          RelativeSource={RelativeSource FindAncestor,
-				                                                         AncestorType={x:Type Button}}}">
-					<Rectangle.OpacityMask>
-						<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_email_minimal}" />
-					</Rectangle.OpacityMask>
-				</Rectangle>
-				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock FontWeight="Bold">Email to BLS</TextBlock>
-							<TextBlock>Saves the Exam File locally and emails at copy to Chris.</TextBlock>
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
-			</Button>
-		</StackPanel>
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Name="CreateNewButton"
+                    Width="50"
+                    Height="50"
+                    Click="ShowCreateExamFlyout"
+                    Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20"
+                           Height="20"
+                           Fill="{Binding Path=Foreground,
+                                          RelativeSource={RelativeSource FindAncestor,
+                                                                         AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_new}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Create New Exam</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button Name="OpenFileButton"
+                    Width="50"
+                    Height="50"
+                    Click="OpenFile"
+                    Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="25"
+                           Height="20"
+                           Fill="{Binding Path=Foreground,
+                                          RelativeSource={RelativeSource FindAncestor,
+                                                                         AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Open Exam from File</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button Name="SaveFileButton"
+                    Width="50"
+                    Height="50"
+                    Click="SaveFile"
+                    Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20"
+                           Height="20"
+                           Fill="{Binding Path=Foreground,
+                                          RelativeSource={RelativeSource FindAncestor,
+                                                                         AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Save Exam to File</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button Name="EmailButton"
+                    Width="50"
+                    Height="50"
+                    Click="EmailExam"
+                    Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="26"
+                           Height="20"
+                           Fill="{Binding Path=Foreground,
+                                          RelativeSource={RelativeSource FindAncestor,
+                                                                         AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_email_minimal}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Email to BLS</TextBlock>
+                            <TextBlock>Saves the Exam File locally and emails at copy to Chris.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+        </StackPanel>
 
-		<DockPanel Grid.Row="0"
-		            Grid.Column="1"
-		            LastChildFill="True">
-			<Controls:MetroAnimatedSingleRowTabControl Name="QuestionTabs"
-			                                           Margin="5,10,0,0"
-													   DockPanel.Dock="Left"
-			                                           Controls:TabControlHelper.IsUnderlined="True"
-			                                           SelectionChanged="QuestionTabs_OnSelectionChanged">
-				<TabItem Name="Q1" Header="Question 1" />
-				<TabItem Name="Q2" Header="Question 2" />
-				<TabItem Name="Q3" Header="Question 3" />
-			</Controls:MetroAnimatedSingleRowTabControl>
+        <DockPanel Grid.Row="0"
+                   Grid.Column="1"
+                   LastChildFill="True">
+            <Controls:MetroAnimatedSingleRowTabControl Name="QuestionTabs"
+                                                       Margin="5,10,0,0"
+                                                       Controls:TabControlHelper.IsUnderlined="True"
+                                                       DockPanel.Dock="Left"
+                                                       SelectionChanged="QuestionTabs_OnSelectionChanged">
+                <TabItem Name="Q1" Header="Question 1" />
+                <TabItem Name="Q2" Header="Question 2" />
+                <TabItem Name="Q3" Header="Question 3" />
+            </Controls:MetroAnimatedSingleRowTabControl>
 
-			<TextBox Name="CategoryNameTB"
-			         Height="40"
-			         Margin="10,0,5,0"
-			         HorizontalAlignment="Stretch"
-			         Controls:TextBoxHelper.ClearTextButton="True"
-			         Controls:TextBoxHelper.UseFloatingWatermark="False"
-			         Controls:TextBoxHelper.Watermark="Category Name"
-			         FontFamily="Segoe UI"
-			         FontSize="20" />
-		</DockPanel>
+            <TextBox Name="CategoryNameTB"
+                     Height="40"
+                     Margin="10,0,5,0"
+                     HorizontalAlignment="Stretch"
+                     Controls:TextBoxHelper.ClearTextButton="True"
+                     Controls:TextBoxHelper.UseFloatingWatermark="False"
+                     Controls:TextBoxHelper.Watermark="Category Name"
+                     FontFamily="Segoe UI"
+                     FontSize="20" />
+        </DockPanel>
 
-		<Grid Name="CategoryQuestionGrid"
-		      Grid.Row="1"
-		      Grid.Column="0"
-		      Grid.ColumnSpan="2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="220" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<Controls:MetroAnimatedSingleRowTabControl Name="CategoryTabs"
-			                                           Grid.Column="0"
-			                                           Width="200"
-			                                           Margin="0,0,-70,0"
-			                                           SelectionChanged="CategoryTabs_OnSelectionChanged"
-			                                           TabStripPlacement="Left">
-				<TabControl.Resources>
-					<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
-						<Setter Property="HorizontalAlignment" Value="Right" />
-					</Style>
-				</TabControl.Resources>
-				<TabItem Name="C1" Header="Category 1" />
-				<TabItem Name="C2" Header="Category 2" />
-				<TabItem Name="C3" Header="Category 3" />
-				<TabItem Name="C4" Header="Category 4" />
-				<TabItem Name="C5" Header="Category 5" />
-				<TabItem Name="C6" Header="Category 6" />
-				<TabItem Name="C7" Header="Category 7" />
-				<TabItem Name="C8" Header="Category 8" />
-				<TabItem Name="C9" Header="Category 9" />
-				<TabItem Name="C10" Header="Category 10" />
-				<TabItem Name="C11" Header="Category 11" />
-				<TabItem Name="C12" Header="Category 12" />
-				<TabItem Name="C13" Header="Category 13" />
-				<TabItem Name="C14" Header="Category 14" />
-				<TabItem Name="C15" Header="Category 15" />
-				<TabItem Name="C16" Header="Category 16" />
-				<TabItem Name="C17" Header="Category 17" />
-				<TabItem Name="C18" Header="Category 18" />
-				<TabItem Name="C19" Header="Category 19" />
-				<TabItem Name="C20" Header="Category 20" />
-			</Controls:MetroAnimatedSingleRowTabControl>
-		</Grid>
+        <Grid Name="CategoryQuestionGrid"
+              Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Controls:MetroAnimatedSingleRowTabControl Name="CategoryTabs"
+                                                       Grid.Column="0"
+                                                       Width="200"
+                                                       Margin="0,0,-70,0"
+                                                       SelectionChanged="CategoryTabs_OnSelectionChanged"
+                                                       TabStripPlacement="Left">
+                <TabControl.Resources>
+                    <Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                    </Style>
+                </TabControl.Resources>
+                <TabItem Name="C1" Header="Category 1" />
+                <TabItem Name="C2" Header="Category 2" />
+                <TabItem Name="C3" Header="Category 3" />
+                <TabItem Name="C4" Header="Category 4" />
+                <TabItem Name="C5" Header="Category 5" />
+                <TabItem Name="C6" Header="Category 6" />
+                <TabItem Name="C7" Header="Category 7" />
+                <TabItem Name="C8" Header="Category 8" />
+                <TabItem Name="C9" Header="Category 9" />
+                <TabItem Name="C10" Header="Category 10" />
+                <TabItem Name="C11" Header="Category 11" />
+                <TabItem Name="C12" Header="Category 12" />
+                <TabItem Name="C13" Header="Category 13" />
+                <TabItem Name="C14" Header="Category 14" />
+                <TabItem Name="C15" Header="Category 15" />
+                <TabItem Name="C16" Header="Category 16" />
+                <TabItem Name="C17" Header="Category 17" />
+                <TabItem Name="C18" Header="Category 18" />
+                <TabItem Name="C19" Header="Category 19" />
+                <TabItem Name="C20" Header="Category 20" />
+            </Controls:MetroAnimatedSingleRowTabControl>
+        </Grid>
 
-		<MyControls:CategoryGrid x:Name="CategoryGrid"
-		                         Grid.Row="1"
-		                         Grid.Column="1" />
-	</Grid>
+        <MyControls:CategoryGrid x:Name="CategoryGrid"
+                                 Grid.Row="1"
+                                 Grid.Column="1" />
+    </Grid>
 </Controls:MetroWindow>

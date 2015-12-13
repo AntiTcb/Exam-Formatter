@@ -36,7 +36,10 @@ namespace Exam_Formatter.Classes {
 
 		#region Public Constructors
 
-		public Question(int id) { ID = id; }
+	    public Question(int id) {
+	        ID = id;
+	        CorrectAnswers = CorrectAnswer.A;
+	    }
 
 		public Question(int ID, QuestionType QT) : this(ID) { QuestionType = QT; }
 
@@ -50,15 +53,18 @@ namespace Exam_Formatter.Classes {
 
 		public void SetCorrectAnswer(CorrectAnswer Letter) { CorrectAnswers = Letter; }
 
-		public void SetCorrectAnswer(string Letter) { CorrectAnswers = (CorrectAnswer)Enum.Parse(typeof (CorrectAnswer), Letter); }
+		public void SetCorrectAnswer(string Letter) {
+		    if (Letter == string.Empty)
+		    {
+		        return;
+		    }
+		    CorrectAnswers = (CorrectAnswer)Enum.Parse(typeof (CorrectAnswer), Letter);} 
 
 		public string GetCorrectAnswerString() {
 			switch (CorrectAnswers)
 			{
 				case CorrectAnswer.A:
-				case CorrectAnswer.True:
 					return "10000";
-				case CorrectAnswer.False:
 				case CorrectAnswer.AB:
 					return "11000";
 				case CorrectAnswer.AC:
@@ -123,8 +129,16 @@ namespace Exam_Formatter.Classes {
 		#region Overrides of Object
 
 		public override string ToString() {
+			Text = ExamParser.ConvertToHTML(Text);
+			A.Text = ExamParser.ConvertToHTML(A.Text);
+			B.Text = ExamParser.ConvertToHTML(B.Text);
+			C.Text = ExamParser.ConvertToHTML(C.Text);
+			D.Text = ExamParser.ConvertToHTML(D.Text);
+			E.Text = ExamParser.ConvertToHTML(E.Text);
+
 			var SB = new StringBuilder();
 			SB.AppendLine(Text);
+
 			switch (QuestionType)
 			{
 				case QuestionType.MultiSingle:
@@ -142,11 +156,15 @@ namespace Exam_Formatter.Classes {
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			SB.AppendLine(A.Text);
-			SB.AppendLine(B.Text);
-			SB.AppendLine(C.Text);
-			SB.AppendLine(D.Text);
-			SB.AppendLine(E.Text);
+
+			if (QuestionType != QuestionType.TrueFalse) { 
+				SB.AppendLine(A.Text);
+				SB.AppendLine(B.Text);
+				SB.AppendLine(C.Text);
+				SB.AppendLine(D.Text);
+				SB.AppendLine(E.Text);
+			}
+
 			SB.AppendLine(GetCorrectAnswerString());
 			return SB.ToString();
 		}

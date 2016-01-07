@@ -25,7 +25,8 @@
                     Width="50"
                     Margin="0,0,5,0"
                     HorizontalAlignment="Right"
-                    Content="Create" />
+                    Content="Create"
+                    IsDefault="True" />
         </StackPanel>
     </Grid>
 </controls:Flyout>

@@ -8,7 +8,6 @@
 #endregion Header
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Exam_Formatter.Enums;
@@ -32,28 +31,28 @@ namespace Exam_Formatter.Classes {
 			ID = id;
 			Questions = Enumerable.Repeat(0, 3).Select(x => new Question(++I, QuestionType.MultiSingle)).ToArray(); }
 
-		public Category(int ID, Question q) : this(ID) { Questions = new[] { q }; }
+		public Category(int id, Question q) : this(id) { Questions = new[] { q }; }
 
-		public Category(int ID, string n) : this(ID) { Name = n; }
+		public Category(int id, string n) : this(id) { Name = n; }
 
-		public Category(int ID, string n, Question q) : this(ID, n) { Questions = new[] {q}; }
+		public Category(int id, string n, Question q) : this(id, n) { Questions = new[] {q}; }
 
-		public Category(int ID, Question[] q) : this(ID) { Questions = q; }
+		public Category(int id, Question[] q) : this(id) { Questions = q; }
 
-		public Category(int ID, Question[] q, string n) : this(ID, q) { Name = n; }
+		public Category(int id, Question[] q, string n) : this(id, q) { Name = n; }
 
 		#region Overrides of Object
 
 		public override string ToString() {
-			var SB = new StringBuilder();
+			var sb = new StringBuilder();
 
-			foreach (var Q in Questions)
+			foreach (var q in Questions)
 			{
-				SB.AppendLine($"#{ID}.{Q.ID}");
-				SB.Append(Q);
-                Console.WriteLine($"{ID}.{Q.ID}");
+				sb.AppendLine($"#{ID}.{q.ID}");
+				sb.Append(q);
+                Console.WriteLine($"{ID}.{q.ID}");
 			}
-			return $"{SB}\n";
+			return $"{sb}\n";
 		}
 
 		#endregion

@@ -27,12 +27,13 @@ namespace Exam_Formatter.FlyoutControls {
 	        CreateExamButton.Click += RaiseCreatingExamEvent;
 	    }
 
-	    protected void RaiseCreatingExamEvent(object Sender, RoutedEventArgs RoutedEventArgs) {
-	        OnCreatingExam(RoutedEventArgs);
+	    protected void RaiseCreatingExamEvent(object sender, RoutedEventArgs routedEventArgs) {
+	        OnCreatingExam(routedEventArgs);
+	        Visibility = Visibility.Hidden;
 	    }
 
-	    protected virtual void OnCreatingExam(RoutedEventArgs e) { IsCreatingExam?.Invoke(e); }
+	    protected virtual void OnCreatingExam(RoutedEventArgs e) => IsCreatingExam?.Invoke(e);
 
-		#endregion Public Constructors
+	    #endregion Public Constructors
 	}
 }

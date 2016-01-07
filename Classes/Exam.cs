@@ -9,7 +9,6 @@
 
 #region Using
 
-using System.Collections.Generic;
 using System.Linq;
 
 #endregion Using
@@ -40,7 +39,7 @@ namespace Exam_Formatter.Classes {
 
 		public int GetCategoryCount() => Categories.Length;
 
-		public int GetQuestionCount() => Categories.Sum(Category => Category.Questions.Length);
+		public int GetQuestionCount() => Categories.Sum(category => category.Questions.Length);
 
 		#endregion Public Methods
 	}

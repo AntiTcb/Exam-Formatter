@@ -1,294 +1,434 @@
 ﻿#region Header
 
-// Alex Gravely - Alex
-//
-// Exam Formatter - Exam Formatter
-// MainWindow.xaml.cs - 30//11//2015 11:14 PM
+// Description:
+// 
+// Solution: Exam Formatter
+// Project: Exam Formatter
+// 
+// Copyright: Copyright (c) 2014-2015 Star City Games (http://www.starcitygames.com)
+// 
+// Created: 11/28/2015 6:06 PM
+// Last Revised: 01/03/2016 2:03 PM
+// Last Revised by: Alex Gravely - Alex
 
-#endregion Header
+#endregion
 
 #region Using
 
-using Exam_Formatter.Classes;
-using Exam_Formatter.Enums;
-using MahApps.Metro.Controls;
-using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Win32;
+
 
 #endregion Using
 
-namespace Exam_Formatter.Windows
-{
-	/// <summary>
-	///     Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow
-	{
-		#region Private Fields + Properties
+namespace Exam_Formatter.Windows {
+    #region Using
 
-		TabItem CurrentCategory;
-		TabItem CurrentQuestion;
-		Exam exam;
-		Question LoadedQuestion;
+    using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Classes;
+    using Enums;
+    using MahApps.Metro.Controls;
+    using MahApps.Metro.Controls.Dialogs;
+    using Microsoft.Win32;
 
-	    bool _enableControls;
+    #endregion
 
-	    public bool EnableControls
-	    {
-	        get
-	        {
-	            return _enableControls;
-	        }
-	        set
-	        {
-	           CategoryGrid.SetControlsEnabled(value);
-               _enableControls = value;
+    /// <summary>
+    ///     Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow {
+        #region Private Fields + Properties
+
+        public bool EnableControls
+        {
+            get { return enableControls; }
+            set
+            {
+                CategoryGrid.SetControlsEnabled(value);
+                enableControls = value;
             }
-	    }
+        }
 
-	    #endregion Private Fields + Properties
+        const string HELP_MESSAGE = "To link to a card, use <card></card> tags. \n Ex: 'This will link to <card>Bujin Yamato</card>.\n" +
+                                    "To link to the various policy documents, use [POLICY-KDE], [POLICY-YGO], or [POLICY-PENALTY].";
+        TabItem currentCategory;
+        TabItem currentQuestion;
+        bool enableControls;
+        Exam exam;
+        Question loadedQuestion;
 
-		#region Public Constructors
+        #endregion Private Fields + Properties
 
-		public MainWindow() {
-			exam = new Exam();
-			InitializeComponent();
+        #region Public Constructors
+
+        public MainWindow() {
+            exam = new Exam();
+            InitializeComponent();
             EnableControls = false;
             CategoryTabs.SelectionChanged -= CategoryTabs_OnSelectionChanged;
-			QuestionTabs.SelectionChanged -= QuestionTabs_OnSelectionChanged;
-			C1.IsSelected = true;
-			Q1.IsSelected = true;
-			SetEventHandlers();
-			LoadedQuestion = exam.Categories[0].Questions[0];
-			CurrentCategory = C1;
-			CurrentQuestion = Q1;
-		}
+            QuestionTabs.SelectionChanged -= QuestionTabs_OnSelectionChanged;
+            C1.IsSelected = true;
+            Q1.IsSelected = true;
+            SetEventHandlers();
+            loadedQuestion = exam.Categories[ 0 ].Questions[ 0 ];
+            currentCategory = C1;
+            currentQuestion = Q1;
+        }
 
-		void SetEventHandlers() {
-			CategoryTabs.SelectionChanged += CategoryTabs_OnSelectionChanged;
-			QuestionTabs.SelectionChanged += QuestionTabs_OnSelectionChanged;
+        void CheckForNoSelectedAnswers(object sender, RoutedEventArgs routedEventArgs) {
+            var checkBox = sender as CheckBox;
+            if ( checkBox == null ) { return; }
+            if ( Equals(checkBox, CategoryGrid.Answer1CheckBox) )
+            {
+                if ( CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+            }
+            else if ( Equals(checkBox, CategoryGrid.Answer2CheckBox) )
+            {
+                if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+            }
+            else if ( Equals(checkBox, CategoryGrid.Answer3CheckBox) )
+            {
+                if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+            }
+            else if ( Equals(checkBox, CategoryGrid.Answer4CheckBox) )
+            {
+                if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+            }
+            else if ( Equals(checkBox, CategoryGrid.Answer5CheckBox) )
+            {
+                if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
+                     CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+            }
+            checkBox.IsChecked = false;
+        }
 
-			CategoryGrid.MultiSelectRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.MultiSelect; };
-			CategoryGrid.MultiSingleRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.MultiSingle; };
-			CategoryGrid.TrueFalseRB.Checked += delegate { LoadedQuestion.QuestionType = QuestionType.TrueFalse; };
-			CategoryGrid.MultiSingleNoShuffleRB.Checked +=
-				delegate { LoadedQuestion.QuestionType = QuestionType.MultiSingleNoShuffle; };
-			CategoryGrid.Answer1CB.Checked += delegate {
-												if (CategoryGrid.Answer1CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
-													!(bool) CategoryGrid.Answer1CB.IsChecked) return;
-												CategoryGrid.Answer2CB.IsChecked = false;
-												CategoryGrid.Answer3CB.IsChecked = false;
-												CategoryGrid.Answer4CB.IsChecked = false;
-												CategoryGrid.Answer5CB.IsChecked = false;
-											};
-			CategoryGrid.Answer2CB.Checked += delegate {
-												if (CategoryGrid.Answer2CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
-													!(bool) CategoryGrid.Answer2CB.IsChecked)
-													return;
-												CategoryGrid.Answer1CB.IsChecked = false;
-												CategoryGrid.Answer3CB.IsChecked = false;
-												CategoryGrid.Answer4CB.IsChecked = false;
-												CategoryGrid.Answer5CB.IsChecked = false;
-											};
+        void SetEventHandlers() {
+            CategoryTabs.SelectionChanged += CategoryTabs_OnSelectionChanged;
+            QuestionTabs.SelectionChanged += QuestionTabs_OnSelectionChanged;
 
-			CategoryGrid.Answer3CB.Checked += delegate {
-												if (CategoryGrid.Answer3CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
-													!(bool) CategoryGrid.Answer3CB.IsChecked)
-													return;
-												CategoryGrid.Answer1CB.IsChecked = false;
-												CategoryGrid.Answer2CB.IsChecked = false;
-												CategoryGrid.Answer4CB.IsChecked = false;
-												CategoryGrid.Answer5CB.IsChecked = false;
-											};
+            foreach ( TabItem tabItem in CategoryTabs.Items ) { tabItem.MouseDoubleClick += RenameCategoryAsync; }
 
-			CategoryGrid.Answer4CB.Checked += delegate {
-												if (CategoryGrid.Answer4CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
-													!(bool) CategoryGrid.Answer4CB.IsChecked)
-													return;
-												CategoryGrid.Answer1CB.IsChecked = false;
-												CategoryGrid.Answer2CB.IsChecked = false;
-												CategoryGrid.Answer3CB.IsChecked = false;
-												CategoryGrid.Answer5CB.IsChecked = false;
-											};
+            CategoryGrid.MultiSelectRadioButton.Checked +=
+                delegate { loadedQuestion.QuestionType = QuestionType.MultiSelect; };
+            CategoryGrid.MultiSingleRadioButton.Checked +=
+                delegate { loadedQuestion.QuestionType = QuestionType.MultiSingle; };
+            CategoryGrid.TrueFalseRadioButton.Checked +=
+                delegate { loadedQuestion.QuestionType = QuestionType.TrueFalse; };
+            CategoryGrid.MultiSingleNoShuffleRadioButton.Checked +=
+                delegate { loadedQuestion.QuestionType = QuestionType.MultiSingleNoShuffle; };
+            CategoryGrid.Answer1CheckBox.Checked += delegate {
+                                                        if ( CategoryGrid.Answer1CheckBox.IsChecked == null ||
+                                                             loadedQuestion.QuestionType == QuestionType.MultiSelect ||
+                                                             !(bool) CategoryGrid.Answer1CheckBox.IsChecked ) {
+                                                                 return;
+                                                             }
+                                                        CategoryGrid.Answer2CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer3CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer4CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer5CheckBox.IsChecked = false;
+                                                    };
+            CategoryGrid.Answer2CheckBox.Checked += delegate {
+                                                        if ( CategoryGrid.Answer2CheckBox.IsChecked == null ||
+                                                             loadedQuestion.QuestionType == QuestionType.MultiSelect ||
+                                                             !(bool) CategoryGrid.Answer2CheckBox.IsChecked ) {
+                                                                 return;
+                                                             }
+                                                        CategoryGrid.Answer1CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer3CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer4CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer5CheckBox.IsChecked = false;
+                                                    };
 
-			CategoryGrid.Answer5CB.Checked += delegate {
-												if (CategoryGrid.Answer5CB.IsChecked == null || LoadedQuestion.QuestionType == QuestionType.MultiSelect ||
-													!(bool) CategoryGrid.Answer5CB.IsChecked)
-													return;
-												CategoryGrid.Answer1CB.IsChecked = false;
-												CategoryGrid.Answer2CB.IsChecked = false;
-												CategoryGrid.Answer3CB.IsChecked = false;
-												CategoryGrid.Answer4CB.IsChecked = false;
-											};
-		    NewExamFlyout.IsCreatingExam += delegate {
-		                                        exam.Name = NewExamFlyout.ExamNameTextbox.Text;
-		                                        EnableControls = true;
-		                                    };
-		}
+            CategoryGrid.Answer3CheckBox.Checked += delegate {
+                                                        if ( CategoryGrid.Answer3CheckBox.IsChecked == null ||
+                                                             loadedQuestion.QuestionType == QuestionType.MultiSelect ||
+                                                             !(bool) CategoryGrid.Answer3CheckBox.IsChecked ) {
+                                                                 return;
+                                                             }
+                                                        CategoryGrid.Answer1CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer2CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer4CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer5CheckBox.IsChecked = false;
+                                                    };
 
-		#endregion Public Constructors
+            CategoryGrid.Answer4CheckBox.Checked += delegate {
+                                                        if ( CategoryGrid.Answer4CheckBox.IsChecked == null ||
+                                                             loadedQuestion.QuestionType == QuestionType.MultiSelect ||
+                                                             !(bool) CategoryGrid.Answer4CheckBox.IsChecked ) {
+                                                                 return;
+                                                             }
+                                                        CategoryGrid.Answer1CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer2CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer3CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer5CheckBox.IsChecked = false;
+                                                    };
 
-		#region Private Methods
+            CategoryGrid.Answer5CheckBox.Checked += delegate {
+                                                        if ( CategoryGrid.Answer5CheckBox.IsChecked == null ||
+                                                             loadedQuestion.QuestionType == QuestionType.MultiSelect ||
+                                                             !(bool) CategoryGrid.Answer5CheckBox.IsChecked ) {
+                                                                 return;
+                                                             }
+                                                        CategoryGrid.Answer1CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer2CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer3CheckBox.IsChecked = false;
+                                                        CategoryGrid.Answer4CheckBox.IsChecked = false;
+                                                    };
+            NewExamFlyout.IsCreatingExam += delegate {
+                                                exam.Name = NewExamFlyout.ExamNameTextbox.Text;
+                                                EnableControls = true;
 
-		static int GetIDNum(string name) => Convert.ToInt32(name.Remove(0, 1)) - 1;
+                                                CategoryGrid.Answer1CheckBox.Unchecked += CheckForNoSelectedAnswers;
+                                                CategoryGrid.Answer2CheckBox.Unchecked += CheckForNoSelectedAnswers;
+                                                CategoryGrid.Answer3CheckBox.Unchecked += CheckForNoSelectedAnswers;
+                                                CategoryGrid.Answer4CheckBox.Unchecked += CheckForNoSelectedAnswers;
+                                                CategoryGrid.Answer5CheckBox.Unchecked += CheckForNoSelectedAnswers;
+                                            };
+        }
 
-		void CategoryTabs_OnSelectionChanged(object O, SelectionChangedEventArgs E)
-		{
-			var OldCategory = (TabItem)E.RemovedItems[0];
-			if (OldCategory != null && CurrentQuestion != null) SaveQuestion(OldCategory, CurrentQuestion);
+        #endregion Public Constructors
 
-			var NewTabControl = (MetroAnimatedSingleRowTabControl)O;
-			CurrentCategory = (TabItem)NewTabControl.SelectedItem;
-			if (CurrentCategory != null && CurrentQuestion != null) LoadQuestion();
-		    QuestionTabs.SelectedIndex = 0;
-		}
+        #region Private Methods
 
-		void LoadCorrectAnswers() {
-			var Answers = LoadedQuestion.GetCorrectAnswerString();
-			switch (LoadedQuestion.QuestionType)
-			{
-				case QuestionType.MultiSingle:
-				case QuestionType.MultiSingleNoShuffle:
-					switch (Answers.IndexOf("1", StringComparison.Ordinal))
-					{
-						case 0:
-							CategoryGrid.Answer1CB.IsChecked = true;
-							break;
-						case 1:
-							CategoryGrid.Answer2CB.IsChecked = true;
-							break;
-						case 2:
-							CategoryGrid.Answer3CB.IsChecked = true;
-							break;
-						case 3:
-							CategoryGrid.Answer4CB.IsChecked = true;
-							break;
-						case 4:
-							CategoryGrid.Answer5CB.IsChecked = true;
-							break;
-						default:
-							throw new ArgumentOutOfRangeException();
-					}
-					break;
+        static int GetIdNum(string name) => Convert.ToInt32(name.Remove(0, 1)) - 1;
 
-				case QuestionType.MultiSelect:
-					CategoryGrid.Answer1CB.IsChecked = Answers[0].ToString() == "1";
-					CategoryGrid.Answer2CB.IsChecked = Answers[1].ToString() == "1";
-					CategoryGrid.Answer3CB.IsChecked = Answers[2].ToString() == "1";
-					CategoryGrid.Answer4CB.IsChecked = Answers[3].ToString() == "1";
-					CategoryGrid.Answer5CB.IsChecked = Answers[4].ToString() == "1";
-					break;
+        void CategoryTabs_OnSelectionChanged(object o, SelectionChangedEventArgs e) {
+            var oldCategory = (TabItem) e.RemovedItems[ 0 ];
+            if ( oldCategory != null &&
+                 currentQuestion != null ) {
+                     SaveQuestion(oldCategory, currentQuestion);
+                 }
 
-				case QuestionType.TrueFalse:
-					if (Answers.IndexOf("1", StringComparison.Ordinal) == 0) { CategoryGrid.Answer1CB.IsChecked = true; }
-					else { CategoryGrid.Answer2CB.IsChecked = true;}
-					break;
+            var newTabControl = (MetroAnimatedSingleRowTabControl) o;
+            currentCategory = (TabItem) newTabControl.SelectedItem;
+            if ( currentCategory != null &&
+                 currentQuestion != null ) {
+                     LoadQuestion();
+                 }
+            QuestionTabs.SelectedIndex = 0;
+        }
 
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
+        void LoadCorrectAnswers() {
+            var answers = loadedQuestion.GetCorrectAnswerString();
+            switch ( loadedQuestion.QuestionType )
+            {
+                case QuestionType.MultiSingle:
+                case QuestionType.MultiSingleNoShuffle:
+                    switch ( answers.IndexOf("1", StringComparison.Ordinal) )
+                    {
+                        case 0:
+                            CategoryGrid.Answer1CheckBox.IsChecked = true;
+                            break;
 
-		void SaveCorrectAnswers() {
-			var FinalAnswer = "";
-			if (CategoryGrid.Answer1CB.IsChecked != null && (bool) CategoryGrid.Answer1CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "A"); }
-			if (CategoryGrid.Answer2CB.IsChecked != null && (bool)CategoryGrid.Answer2CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "B"); }
-			if (CategoryGrid.Answer3CB.IsChecked != null && (bool)CategoryGrid.Answer3CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "C"); }
-			if (CategoryGrid.Answer4CB.IsChecked != null && (bool)CategoryGrid.Answer4CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "D"); }
-			if (CategoryGrid.Answer5CB.IsChecked != null && (bool)CategoryGrid.Answer5CB.IsChecked) { FinalAnswer = string.Concat(FinalAnswer, "E"); }
-			LoadedQuestion.SetCorrectAnswer(FinalAnswer);
-		}
+                        case 1:
+                            CategoryGrid.Answer2CheckBox.IsChecked = true;
+                            break;
 
-		void LoadQuestion() {
-			LoadedQuestion = exam.Categories[GetIDNum(CurrentCategory?.Name)].Questions[GetIDNum(CurrentQuestion?.Name)];
+                        case 2:
+                            CategoryGrid.Answer3CheckBox.IsChecked = true;
+                            break;
 
-			CategoryGrid.QuestionTextTB.Text = LoadedQuestion.Text;
-			CategoryGrid.AnswerOneText.Text = LoadedQuestion.A.Text;
-			CategoryGrid.AnswerTwoText.Text = LoadedQuestion.B.Text;
-			CategoryGrid.AnswerThreeText.Text = LoadedQuestion.C.Text;
-			CategoryGrid.AnswerFourText.Text = LoadedQuestion.D.Text;
-			CategoryGrid.AnswerFiveText.Text = LoadedQuestion.E.Text;
-			SetQuestionType(LoadedQuestion.QuestionType);
-			CategoryNameTB.Text = exam.Categories[GetIDNum(CurrentCategory?.Name)].Name;
-			LoadCorrectAnswers();
-		    EnableControls = true;
-		}
+                        case 3:
+                            CategoryGrid.Answer4CheckBox.IsChecked = true;
+                            break;
 
-		void QuestionTabs_OnSelectionChanged(object O, SelectionChangedEventArgs E) {
-			var OldQuestion = (TabItem) E.RemovedItems[0];
-			if (OldQuestion != null && CurrentCategory != null) SaveQuestion(CurrentCategory, OldQuestion);
+                        case 4:
+                            CategoryGrid.Answer5CheckBox.IsChecked = true;
+                            break;
 
-			var TabControl = (MetroAnimatedSingleRowTabControl) O;
-			CurrentQuestion = (TabItem) TabControl.SelectedItem;
-			if (CurrentCategory != null && CurrentQuestion != null) LoadQuestion();
-		}
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
 
-		void SaveQuestion(IFrameworkInputElement category, IFrameworkInputElement question) {
-			LoadedQuestion = exam.Categories[GetIDNum(category?.Name)].Questions[GetIDNum(question?.Name)];
+                case QuestionType.MultiSelect:
+                    CategoryGrid.Answer1CheckBox.IsChecked = answers[ 0 ].ToString() == "1";
+                    CategoryGrid.Answer2CheckBox.IsChecked = answers[ 1 ].ToString() == "1";
+                    CategoryGrid.Answer3CheckBox.IsChecked = answers[ 2 ].ToString() == "1";
+                    CategoryGrid.Answer4CheckBox.IsChecked = answers[ 3 ].ToString() == "1";
+                    CategoryGrid.Answer5CheckBox.IsChecked = answers[ 4 ].ToString() == "1";
+                    break;
 
-			LoadedQuestion.Text = CategoryGrid.QuestionTextTB.Text;
-			LoadedQuestion.A.Text = CategoryGrid.AnswerOneText.Text;
-			LoadedQuestion.B.Text = CategoryGrid.AnswerTwoText.Text;
-			LoadedQuestion.C.Text = CategoryGrid.AnswerThreeText.Text;
-			LoadedQuestion.D.Text = CategoryGrid.AnswerFourText.Text;
-			LoadedQuestion.E.Text = CategoryGrid.AnswerFiveText.Text;
-			exam.Categories[GetIDNum(category?.Name)].Name = CategoryNameTB.Text;
-			SaveCorrectAnswers();
-		}
+                case QuestionType.TrueFalse:
+                    if ( answers.IndexOf("1", StringComparison.Ordinal) == 0 ) {
+                        CategoryGrid.Answer1CheckBox.IsChecked = true;
+                    }
+                    else
+                    {
+                        CategoryGrid.Answer2CheckBox.IsChecked = true;
+                    }
+                    break;
 
-		void SetQuestionType(QuestionType QT) {
-			switch (QT)
-			{
-				case QuestionType.MultiSingle:
-					CategoryGrid.MultiSingleRB.IsChecked = true;
-					break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
-				case QuestionType.MultiSelect:
-					CategoryGrid.MultiSelectRB.IsChecked = true;
-					break;
+        void LoadQuestion() {
+            loadedQuestion =
+                exam.Categories[ GetIdNum(currentCategory?.Name) ].Questions[ GetIdNum(currentQuestion?.Name) ];
 
-				case QuestionType.TrueFalse:
-					CategoryGrid.TrueFalseRB.IsChecked = true;
-					break;
+            CategoryGrid.QuestionTextTextBox.Text = loadedQuestion.Text;
+            CategoryGrid.AnswerOneTextBox.Text = loadedQuestion.A.Text;
+            CategoryGrid.AnswerTwoTextBox.Text = loadedQuestion.B.Text;
+            CategoryGrid.AnswerThreeTextBox.Text = loadedQuestion.C.Text;
+            CategoryGrid.AnswerFourTextBox.Text = loadedQuestion.D.Text;
+            CategoryGrid.AnswerFiveTextBox.Text = loadedQuestion.E.Text;
+            SetQuestionType(loadedQuestion.QuestionType);
+            LoadCorrectAnswers();
+        }
 
-				case QuestionType.MultiSingleNoShuffle:
-					CategoryGrid.MultiSingleNoShuffleRB.IsChecked = true;
-					break;
+        void QuestionTabs_OnSelectionChanged(object o, SelectionChangedEventArgs e) {
+            var oldQuestion = (TabItem) e.RemovedItems[ 0 ];
+            if ( oldQuestion != null &&
+                 currentCategory != null ) {
+                     SaveQuestion(currentCategory, oldQuestion);
+                 }
 
-				default:
-					throw new ArgumentOutOfRangeException(nameof(QT), QT, null);
-			}
-		}
+            var tabControl = (MetroAnimatedSingleRowTabControl) o;
+            currentQuestion = (TabItem) tabControl.SelectedItem;
+            if ( currentCategory != null &&
+                 currentQuestion != null ) {
+                     LoadQuestion();
+                 }
+        }
 
-		void ShowCreateExamFlyout(object Sender, RoutedEventArgs E) { NewExamFlyout.IsOpen = true; }
+        void SaveCorrectAnswers() {
+            var finalAnswer = "";
+            if ( CategoryGrid.Answer1CheckBox.IsChecked != null &&
+                 (bool) CategoryGrid.Answer1CheckBox.IsChecked ) {
+                     finalAnswer = string.Concat(finalAnswer, "A");
+                 }
+            if ( CategoryGrid.Answer2CheckBox.IsChecked != null &&
+                 (bool) CategoryGrid.Answer2CheckBox.IsChecked ) {
+                     finalAnswer = string.Concat(finalAnswer, "B");
+                 }
+            if ( CategoryGrid.Answer3CheckBox.IsChecked != null &&
+                 (bool) CategoryGrid.Answer3CheckBox.IsChecked ) {
+                     finalAnswer = string.Concat(finalAnswer, "C");
+                 }
+            if ( CategoryGrid.Answer4CheckBox.IsChecked != null &&
+                 (bool) CategoryGrid.Answer4CheckBox.IsChecked ) {
+                     finalAnswer = string.Concat(finalAnswer, "D");
+                 }
+            if ( CategoryGrid.Answer5CheckBox.IsChecked != null &&
+                 (bool) CategoryGrid.Answer5CheckBox.IsChecked ) {
+                     finalAnswer = string.Concat(finalAnswer, "E");
+                 }
+            loadedQuestion.SetCorrectAnswer(finalAnswer);
+        }
 
-		#endregion Private Methods
+        void SaveQuestion(IFrameworkInputElement category, IFrameworkInputElement question) {
+            loadedQuestion = exam.Categories[ GetIdNum(category?.Name) ].Questions[ GetIdNum(question?.Name) ];
 
-		void EmailExam(object Sender, RoutedEventArgs E) { }
+            loadedQuestion.Text = CategoryGrid.QuestionTextTextBox.Text;
+            loadedQuestion.A.Text = CategoryGrid.AnswerOneTextBox.Text;
+            loadedQuestion.B.Text = CategoryGrid.AnswerTwoTextBox.Text;
+            loadedQuestion.C.Text = CategoryGrid.AnswerThreeTextBox.Text;
+            loadedQuestion.D.Text = CategoryGrid.AnswerFourTextBox.Text;
+            loadedQuestion.E.Text = CategoryGrid.AnswerFiveTextBox.Text;
+            SaveCorrectAnswers();
+        }
 
-		async void OpenFile(object Sender, RoutedEventArgs E) {
-			var OFD = new OpenFileDialog {Filter = "Text files (*.txt)|*.txt"};
-			if (OFD.ShowDialog() != true) return;
-			using (new WaitCursor())
-			{
-			    exam = new Exam();
-				await ExamParser.ReadExamFile(OFD.FileName, exam);
-				LoadQuestion();
-			}
-		}
+        void SetQuestionType(QuestionType qt) {
+            switch ( qt )
+            {
+                case QuestionType.MultiSingle:
+                    CategoryGrid.MultiSingleRadioButton.IsChecked = true;
+                    break;
 
-		async void SaveFile(object Sender, RoutedEventArgs E) {
-			var SFD = new SaveFileDialog();
-			if (SFD.ShowDialog() != true) return;
-			using (new WaitCursor())
-			{
-				SaveQuestion(CurrentCategory, CurrentQuestion);
-				await ExamParser.WriteExamFile(SFD.FileName, exam);
-                
-			}
-		}
-	}
+                case QuestionType.MultiSelect:
+                    CategoryGrid.MultiSelectRadioButton.IsChecked = true;
+                    break;
+
+                case QuestionType.TrueFalse:
+                    CategoryGrid.TrueFalseRadioButton.IsChecked = true;
+                    break;
+
+                case QuestionType.MultiSingleNoShuffle:
+                    CategoryGrid.MultiSingleNoShuffleRadioButton.IsChecked = true;
+                    break;
+
+                default:
+                    Console.WriteLine(qt);
+                    throw new ArgumentOutOfRangeException(nameof(qt), qt, null);
+            }
+        }
+
+        void ShowCreateExamFlyout(object sender, RoutedEventArgs e) => NewExamFlyout.IsOpen = true;
+
+        #endregion Private Methods
+
+        void DonateButton_OnClick(object sender, RoutedEventArgs e) => Process.Start("https://paypal.me/AntiTcb");
+
+        async void EditExamNameAsync(object sender, RoutedEventArgs e) {
+            var editName =
+                await
+                this.ShowInputAsync
+                    ("Edit Exam Name", "Name this exam!", new MetroDialogSettings { DefaultText = exam.Name });
+            if ( editName != null ) { exam.Name = editName; }
+        }
+
+        async void MainWindow_OnClosing(object sender, CancelEventArgs e) {
+            var closeDialog = await this.ShowMessageAsync("Close?", "Are you sure you wish to exit?");
+            if ( closeDialog == MessageDialogResult.Affirmative ) { Application.Current.Shutdown(); }
+        }
+
+        async void OpenFileAsync(object sender, RoutedEventArgs e) {
+            var ofd = new OpenFileDialog { Filter = "Text Files (*.txt)|*.txt" };
+            if ( ofd.ShowDialog() != true ) { return; }
+            using ( new WaitCursor() )
+            {
+                exam = new Exam();
+                await ExamParser.ReadExamFileAsync(ofd.FileName, exam);
+                LoadQuestion();
+                EnableControls = true;
+            }
+        }
+
+        async void RenameCategoryAsync(object sender, MouseButtonEventArgs e) {
+            var categoryLabel = sender as TabItem;
+            if (categoryLabel == null) { return; }
+            var output = await this.ShowInputAsync
+                                              ("Rename the Category", $"{categoryLabel.Content}",
+                                               new MetroDialogSettings { DefaultText = "Category" });
+            categoryLabel.Header = output == "Category" || output == string.Empty ? $"Category {categoryLabel.Name.Substring(1)}" : output;
+        }
+
+        async void SaveFileAsync(object sender, RoutedEventArgs e) {
+            var sfd = new SaveFileDialog
+                      {
+                          DefaultExt = ".txt",
+                          Filter = "Text Files (*.txt) | *.txt"
+                      };
+            if ( sfd.ShowDialog() != true ) { return; }
+            using ( new WaitCursor() )
+            {
+                SaveQuestion(currentCategory, currentQuestion);
+                await ExamParser.WriteExamFileAsync(sfd.FileName, exam);
+                await this.ShowMessageAsync("Exam Saved!", $"Exam saved to {sfd.FileName}!");
+            }
+        }
+
+        async void ShowHelpDialogAsync(object sender, RoutedEventArgs e) {
+            await this.ShowMessageAsync("Help!", HELP_MESSAGE);
+        }
+    }
 }

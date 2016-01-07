@@ -1,7 +1,7 @@
 ﻿<Grid x:Class="Exam_Formatter.Controls.CategoryGrid"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       d:DesignHeight="750"
@@ -56,7 +56,7 @@
                     Height="Auto"
                     Margin="5"
                     VerticalAlignment="Stretch">
-            <RadioButton Name="MultiSingleRB"
+            <RadioButton Name="MultiSingleRadioButton"
                          Margin="5"
                          GroupName="QuestionType"
                          IsChecked="True">
@@ -64,21 +64,21 @@
                     <TextBlock Text="Multiple Choice - Single Answer" TextWrapping="Wrap" />
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Name="MultiSingleNoShuffleRB"
+            <RadioButton Name="MultiSingleNoShuffleRadioButton"
                          Margin="5"
                          GroupName="QuestionType">
                 <RadioButton.Content>
                     <TextBlock Text="Multiple Choice - Single Answer - No Shuffling" TextWrapping="Wrap" />
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Name="MultiSelectRB"
+            <RadioButton Name="MultiSelectRadioButton"
                          Margin="5"
                          GroupName="QuestionType">
                 <RadioButton.Content>
                     <TextBlock Text="Multiple Choice - Select All" TextWrapping="Wrap" />
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Name="TrueFalseRB"
+            <RadioButton Name="TrueFalseRadioButton"
                          Margin="5"
                          Checked="TrueFalseRB_OnChecked"
                          Content="True / False"
@@ -87,7 +87,7 @@
                          Unchecked="TrueFalseRB_OnUnchecked" />
         </StackPanel>
 
-        <TextBox Name="QuestionTextTB"
+        <TextBox Name="QuestionTextTextBox"
                  Grid.Row="1"
                  Grid.Column="1"
                  FontSize="14"
@@ -106,17 +106,18 @@
                        HorizontalAlignment="Left"
                        Content="Answer 1:"
                        FontWeight="Bold" />
-                <CheckBox Name="Answer1CB"
+                <CheckBox Name="Answer1CheckBox"
                           Grid.Column="2"
                           Checked="StyleCorrectCheckbox"
-                          Content="Incorrect"
-                          Foreground="Red"
+                          Content="Correct"
+                          Foreground="Green"
+                          IsChecked="True"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
-            <TextBox Name="AnswerOneText"
-                     Controls:TextBoxHelper.ClearTextButton="True"
+            <TextBox Name="AnswerOneTextBox"
                      FontSize="14"
-                     TextWrapping="Wrap" />
+                     TextWrapping="Wrap"
+                     controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
@@ -133,17 +134,17 @@
                        Content="Answer 2:"
                        DockPanel.Dock="Top"
                        FontWeight="Bold" />
-                <CheckBox Name="Answer2CB"
+                <CheckBox Name="Answer2CheckBox"
                           Grid.Column="2"
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
-            <TextBox Name="AnswerTwoText"
-                     Controls:TextBoxHelper.ClearTextButton="True"
+            <TextBox Name="AnswerTwoTextBox"
                      FontSize="14"
-                     TextWrapping="Wrap" />
+                     TextWrapping="Wrap"
+                     controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
@@ -160,17 +161,17 @@
                        Content="Answer 3:"
                        FontWeight="Bold" />
 
-                <CheckBox Name="Answer3CB"
+                <CheckBox Name="Answer3CheckBox"
                           Grid.Column="2"
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
-            <TextBox Name="AnswerThreeText"
-                     Controls:TextBoxHelper.ClearTextButton="True"
+            <TextBox Name="AnswerThreeTextBox"
                      FontSize="14"
-                     TextWrapping="Wrap" />
+                     TextWrapping="Wrap"
+                     controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
@@ -189,17 +190,17 @@
                        DockPanel.Dock="Top"
                        FontWeight="Bold" />
 
-                <CheckBox Name="Answer4CB"
+                <CheckBox Name="Answer4CheckBox"
                           Grid.Column="2"
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
-            <TextBox Name="AnswerFourText"
-                     Controls:TextBoxHelper.ClearTextButton="True"
+            <TextBox Name="AnswerFourTextBox"
                      FontSize="14"
-                     TextWrapping="Wrap" />
+                     TextWrapping="Wrap"
+                     controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
@@ -215,17 +216,17 @@
                        Content="Answer 5:"
                        DockPanel.Dock="Top"
                        FontWeight="Bold" />
-                <CheckBox Name="Answer5CB"
+                <CheckBox Name="Answer5CheckBox"
                           Grid.Column="2"
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
-            <TextBox Name="AnswerFiveText"
-                     Controls:TextBoxHelper.ClearTextButton="True"
+            <TextBox Name="AnswerFiveTextBox"
                      FontSize="14"
-                     TextWrapping="Wrap" />
+                     TextWrapping="Wrap"
+                     controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 

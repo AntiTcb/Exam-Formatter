@@ -10,7 +10,6 @@
 #region Using
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using Exam_Formatter.Enums;
 
@@ -21,6 +20,8 @@ namespace Exam_Formatter.Classes {
 	public class Question {
 		#region Public Fields + Properties
 
+	    string text;
+
 		public int ID;
 		public CorrectAnswer CorrectAnswers { get; protected set; }
 		public QuestionType QuestionType { get; set; }
@@ -30,7 +31,12 @@ namespace Exam_Formatter.Classes {
 		public Answer D;
 		public Answer E;
 
-		public string Text;
+	    public string Text
+	    {
+	        get { return text; }
+	        set { text = ExamParser.ConvertFromHtml(value); }
+	    }
+
 
 		#endregion Public Fields + Properties
 
@@ -41,24 +47,24 @@ namespace Exam_Formatter.Classes {
 	        CorrectAnswers = CorrectAnswer.A;
 	    }
 
-		public Question(int ID, QuestionType QT) : this(ID) { QuestionType = QT; }
+		public Question(int id, QuestionType qt) : this(id) { QuestionType = qt; }
 
-		public Question(int ID, QuestionType QT, string text) : this(ID, QT) { Text = text; }
+		public Question(int id, QuestionType qt, string text) : this(id, qt) { Text = text; }
 
-		public Question(int ID, QuestionType QT, string text, CorrectAnswer CA) : this(ID, QT, text) { CorrectAnswers = CA; }
+		public Question(int id, QuestionType qt, string text, CorrectAnswer ca) : this(id, qt, text) { CorrectAnswers = ca; }
 
 		#endregion Protected Constructors
 
 		#region Public Methods
 
-		public void SetCorrectAnswer(CorrectAnswer Letter) { CorrectAnswers = Letter; }
+		public void SetCorrectAnswer(CorrectAnswer letter) => CorrectAnswers = letter;
 
-		public void SetCorrectAnswer(string Letter) {
-		    if (Letter == string.Empty)
+	    public void SetCorrectAnswer(string letter) {
+		    if (letter == string.Empty)
 		    {
 		        return;
 		    }
-		    CorrectAnswers = (CorrectAnswer)Enum.Parse(typeof (CorrectAnswer), Letter);} 
+		    CorrectAnswers = (CorrectAnswer)Enum.Parse(typeof (CorrectAnswer), letter);}
 
 		public string GetCorrectAnswerString() {
 			switch (CorrectAnswers)
@@ -129,44 +135,44 @@ namespace Exam_Formatter.Classes {
 		#region Overrides of Object
 
 		public override string ToString() {
-			Text = ExamParser.ConvertToHTML(Text);
-			A.Text = ExamParser.ConvertToHTML(A.Text);
-			B.Text = ExamParser.ConvertToHTML(B.Text);
-			C.Text = ExamParser.ConvertToHTML(C.Text);
-			D.Text = ExamParser.ConvertToHTML(D.Text);
-			E.Text = ExamParser.ConvertToHTML(E.Text);
+			Text = ExamParser.ConvertToHtml(Text);
+			A.Text = ExamParser.ConvertToHtml(A.Text);
+			B.Text = ExamParser.ConvertToHtml(B.Text);
+			C.Text = ExamParser.ConvertToHtml(C.Text);
+			D.Text = ExamParser.ConvertToHtml(D.Text);
+			E.Text = ExamParser.ConvertToHtml(E.Text);
 
-			var SB = new StringBuilder();
-			SB.AppendLine(Text);
+			var sb = new StringBuilder();
+			sb.AppendLine(Text);
 
 			switch (QuestionType)
 			{
 				case QuestionType.MultiSingle:
-					SB.AppendLine("multi-single");
+					sb.AppendLine("multi-single");
 					break;
 				case QuestionType.MultiSingleNoShuffle:
-					SB.AppendLine("multi-single-noshuffle");
+					sb.AppendLine("multi-single-noshuffle");
 					break;
 				case QuestionType.MultiSelect:
-					SB.AppendLine("multi");
+					sb.AppendLine("multi");
 					break;
 				case QuestionType.TrueFalse:
-					SB.AppendLine("tf");
+					sb.AppendLine("tf");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (QuestionType != QuestionType.TrueFalse) { 
-				SB.AppendLine(A.Text);
-				SB.AppendLine(B.Text);
-				SB.AppendLine(C.Text);
-				SB.AppendLine(D.Text);
-				SB.AppendLine(E.Text);
+			if (QuestionType != QuestionType.TrueFalse) {
+				sb.AppendLine(A.Text);
+				sb.AppendLine(B.Text);
+				sb.AppendLine(C.Text);
+				sb.AppendLine(D.Text);
+				sb.AppendLine(E.Text);
 			}
 
-			SB.AppendLine(GetCorrectAnswerString());
-			return SB.ToString();
+			sb.AppendLine(GetCorrectAnswerString());
+			return sb.ToString();
 		}
 
 		#endregion

@@ -15,8 +15,10 @@ using System.Windows;
 
 namespace Exam_Formatter {
 
-	/// <summary>
-	///     Interaction logic for App.xaml
-	/// </summary>
-	public partial class App {}
+    /// <summary>
+    ///     Interaction logic for App.xaml
+    /// </summary>
+    public partial class App {
+        
+    }
 }

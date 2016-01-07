@@ -19,6 +19,9 @@ namespace Exam_Formatter.Controls {
 	/// </summary>
 	public partial class CategoryGrid {
 
+	    string answerOneTextHolder;
+	    string answerTwoTextHolder;
+
 		#region Public Constructors
 
 		public CategoryGrid()
@@ -28,65 +31,76 @@ namespace Exam_Formatter.Controls {
 
 		#endregion Public Constructors
 
-	    void StyleCorrectCheckbox(object Sender, RoutedEventArgs E) {
-	        var cb = (CheckBox)Sender;
+	    void StyleCorrectCheckbox(object sender, RoutedEventArgs e) {
+	        var cb = (CheckBox)sender;
 	        cb.Foreground = Brushes.Green;
+	        cb.Content = "Correct";
 	    }
 
-	    void StyleIncorrectCheckbox(object Sender, RoutedEventArgs E) {
-	        var cb = (CheckBox) Sender;
+	    void StyleIncorrectCheckbox(object sender, RoutedEventArgs e) {
+	        var cb = (CheckBox) sender;
 	        cb.Foreground = Brushes.Red;
+	        cb.Content = "Incorrect";
 	    }
 
-	    public void SetControlsEnabled(bool AreControlsEnabled) {
-            Answer1CB.IsEnabled = AreControlsEnabled;
-            Answer2CB.IsEnabled = AreControlsEnabled;
-            Answer3CB.IsEnabled = AreControlsEnabled;
-            Answer4CB.IsEnabled = AreControlsEnabled;
-            Answer5CB.IsEnabled = AreControlsEnabled;
+	    public void SetControlsEnabled(bool areControlsEnabled) {
+            Answer1CheckBox.IsEnabled = areControlsEnabled;
+            Answer2CheckBox.IsEnabled = areControlsEnabled;
+            Answer3CheckBox.IsEnabled = areControlsEnabled;
+            Answer4CheckBox.IsEnabled = areControlsEnabled;
+            Answer5CheckBox.IsEnabled = areControlsEnabled;
 
-            AnswerOneText.IsEnabled = AreControlsEnabled;
-            AnswerTwoText.IsEnabled = AreControlsEnabled;
-            AnswerThreeText.IsEnabled = AreControlsEnabled;
-            AnswerFourText.IsEnabled = AreControlsEnabled;
-            AnswerFiveText.IsEnabled = AreControlsEnabled;
+            AnswerOneTextBox.IsEnabled = areControlsEnabled;
+            AnswerTwoTextBox.IsEnabled = areControlsEnabled;
+            AnswerThreeTextBox.IsEnabled = areControlsEnabled;
+            AnswerFourTextBox.IsEnabled = areControlsEnabled;
+            AnswerFiveTextBox.IsEnabled = areControlsEnabled;
 
-            QuestionTextTB.IsEnabled = AreControlsEnabled;
+            QuestionTextTextBox.IsEnabled = areControlsEnabled;
 
-            MultiSelectRB.IsEnabled = AreControlsEnabled;
-            MultiSingleRB.IsEnabled = AreControlsEnabled;
-            MultiSingleNoShuffleRB.IsEnabled = AreControlsEnabled;
-            TrueFalseRB.IsEnabled = AreControlsEnabled;
+            MultiSelectRadioButton.IsEnabled = areControlsEnabled;
+            MultiSingleRadioButton.IsEnabled = areControlsEnabled;
+            MultiSingleNoShuffleRadioButton.IsEnabled = areControlsEnabled;
+            TrueFalseRadioButton.IsEnabled = areControlsEnabled;
         }
 
-	    void TrueFalseRB_OnChecked(object Sender, RoutedEventArgs E) {
-            Answer1CB.IsEnabled = false;
-            Answer2CB.IsEnabled = false;
-            Answer3CB.IsEnabled = false;
-            Answer4CB.IsEnabled = false;
-            Answer5CB.IsEnabled = false;
-            
-            AnswerThreeText.IsEnabled = false;
-            AnswerFourText.IsEnabled = false;
-            AnswerFiveText.IsEnabled = false;
+	    void TrueFalseRB_OnChecked(object sender, RoutedEventArgs e) {
+            Answer1CheckBox.IsEnabled = true;
+            Answer2CheckBox.IsEnabled = true;
+            Answer3CheckBox.IsEnabled = false;
+            Answer4CheckBox.IsEnabled = false;
+            Answer5CheckBox.IsEnabled = false;
 
-	        TextBoxHelper.SetWatermark(AnswerOneText, "True");
-            TextBoxHelper.SetWatermark(AnswerTwoText, "False");
+            AnswerThreeTextBox.IsEnabled = false;
+            AnswerFourTextBox.IsEnabled = false;
+            AnswerFiveTextBox.IsEnabled = false;
+
+	        answerOneTextHolder = AnswerOneTextBox.Text;
+	        answerTwoTextHolder = AnswerTwoTextBox.Text;
+
+	        AnswerOneTextBox.Text = string.Empty;
+            AnswerTwoTextBox.Text = string.Empty;
+
+            TextBoxHelper.SetWatermark(AnswerOneTextBox, "True");
+            TextBoxHelper.SetWatermark(AnswerTwoTextBox, "False");
 	    }
 
-	    void TrueFalseRB_OnUnchecked(object Sender, RoutedEventArgs E) {
-            Answer1CB.IsEnabled = true;
-            Answer2CB.IsEnabled = true;
-            Answer3CB.IsEnabled = true;
-            Answer4CB.IsEnabled = true;
-            Answer5CB.IsEnabled = true;
+	    void TrueFalseRB_OnUnchecked(object sender, RoutedEventArgs e) {
+            Answer1CheckBox.IsEnabled = true;
+            Answer2CheckBox.IsEnabled = true;
+            Answer3CheckBox.IsEnabled = true;
+            Answer4CheckBox.IsEnabled = true;
+            Answer5CheckBox.IsEnabled = true;
 
-            AnswerThreeText.IsEnabled = true;
-            AnswerFourText.IsEnabled = true;
-            AnswerFiveText.IsEnabled = true;
+            AnswerThreeTextBox.IsEnabled = true;
+            AnswerFourTextBox.IsEnabled = true;
+            AnswerFiveTextBox.IsEnabled = true;
 
-            TextBoxHelper.SetWatermark(AnswerOneText, string.Empty);
-            TextBoxHelper.SetWatermark(AnswerTwoText, string.Empty);
+            TextBoxHelper.SetWatermark(AnswerOneTextBox, string.Empty);
+            TextBoxHelper.SetWatermark(AnswerTwoTextBox, string.Empty);
+
+	        if ( answerOneTextHolder.Length != 0 ) { AnswerOneTextBox.Text = answerOneTextHolder; }
+            if (answerTwoTextHolder.Length != 0) { AnswerTwoTextBox.Text = answerTwoTextHolder; }
         }
 	}
 }

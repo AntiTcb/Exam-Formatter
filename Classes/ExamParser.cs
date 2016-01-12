@@ -109,7 +109,7 @@ namespace Exam_Formatter.Classes {
             string finalResult;
             try
             {
-                var pattern = new[ ] { @"<f.+'_blank'>", "</a></u></font>", "</a></font></u>", @"<u.+\YGOPolicy.+>", @"<u.+\KDEPolicy.+>", @"<u.+\Penalties.+>" };
+                var pattern = new[ ] { @"<f.+?'_blank'>", "</a></u></font>", "</a></font></u>", @"<u.+?\YGOPolicy.+?>", @"<u.+?\KDEPolicy.+?>", @"<u.+?\Penalties.+?>" };
                 var replacement = new[ ] { "<card>", "</card>", "[POLICY-YGO]", "[POLICY-KDE]", "[POLICY-PENALTY]" };
                 var reg = new Regex(pattern[ 0 ]);
                 var firstPass = reg.Replace(text, replacement[ 0 ]);
@@ -130,7 +130,7 @@ namespace Exam_Formatter.Classes {
             {
                 var patterns = new[ ]
                                {
-                                   @"<card>(.+)<", "<card>", "</card>", "[POLICY-YGO]", "[POLICY-KDE]", "[POLICY-PENALTY]"
+                                   @"<card>(.+?)<", "<card>", "</card>", "[POLICY-YGO]", "[POLICY-KDE]", "[POLICY-PENALTY]"
                                };
                 var reg = new Regex(patterns[ 0 ]);
                 var cardName = reg.Match(text).Groups[ 1 ].Value.Replace(" ", "+");

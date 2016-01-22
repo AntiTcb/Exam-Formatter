@@ -1,49 +1,56 @@
 ﻿#region Header
 
-// Alex Gravely - Alex
+// Description:
 //
-// Exam Formatter - Exam Formatter
-// CategoryGrid.xaml.cs - 30//11//2015 1:25 AM
+// Solution: Exam Formatter
+// Project: Exam Formatter
+//
+// Created: 11/29/2015 11:04 PM
+// Last Revised: 01/12/2016 4:27 AM
+// Last Revised by: Alex Gravely - Alex
 
 #endregion Header
 
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using MahApps.Metro.Controls;
+namespace Exam_Formatter.Controls
+{
+    #region Using
 
-namespace Exam_Formatter.Controls {
+    using MahApps.Metro.Controls;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
 
-	/// <summary>
-	///     Interaction logic for CategoryGrid.xaml
-	/// </summary>
-	public partial class CategoryGrid {
+    #endregion Using
 
-	    string answerOneTextHolder;
-	    string answerTwoTextHolder;
+    /// <summary>
+    ///     Interaction logic for CategoryGrid.xaml
+    /// </summary>
+    public partial class CategoryGrid {
+        string answerOneTextHolder;
+        string answerTwoTextHolder;
 
-		#region Public Constructors
+        #region Public Constructors
 
-		public CategoryGrid()
-		{
-			InitializeComponent();
-		}
+        public CategoryGrid()
+        {
+            InitializeComponent();
+        }
 
-		#endregion Public Constructors
+        #endregion Public Constructors
 
-	    void StyleCorrectCheckbox(object sender, RoutedEventArgs e) {
-	        var cb = (CheckBox)sender;
-	        cb.Foreground = Brushes.Green;
-	        cb.Content = "Correct";
-	    }
+        void StyleCorrectCheckbox(object sender, RoutedEventArgs e) {
+            var cb = (CheckBox) sender;
+            cb.Foreground = Brushes.Green;
+            cb.Content = "Correct";
+        }
 
-	    void StyleIncorrectCheckbox(object sender, RoutedEventArgs e) {
-	        var cb = (CheckBox) sender;
-	        cb.Foreground = Brushes.Red;
-	        cb.Content = "Incorrect";
-	    }
+        void StyleIncorrectCheckbox(object sender, RoutedEventArgs e) {
+            var cb = (CheckBox) sender;
+            cb.Foreground = Brushes.Red;
+            cb.Content = "Incorrect";
+        }
 
-	    public void SetControlsEnabled(bool areControlsEnabled) {
+        public void SetControlsEnabled(bool areControlsEnabled) {
             Answer1CheckBox.IsEnabled = areControlsEnabled;
             Answer2CheckBox.IsEnabled = areControlsEnabled;
             Answer3CheckBox.IsEnabled = areControlsEnabled;
@@ -64,7 +71,7 @@ namespace Exam_Formatter.Controls {
             TrueFalseRadioButton.IsEnabled = areControlsEnabled;
         }
 
-	    void TrueFalseRB_OnChecked(object sender, RoutedEventArgs e) {
+        void TrueFalseRB_OnChecked(object sender, RoutedEventArgs e) {
             Answer1CheckBox.IsEnabled = true;
             Answer2CheckBox.IsEnabled = true;
             Answer3CheckBox.IsEnabled = false;
@@ -75,17 +82,17 @@ namespace Exam_Formatter.Controls {
             AnswerFourTextBox.IsEnabled = false;
             AnswerFiveTextBox.IsEnabled = false;
 
-	        answerOneTextHolder = AnswerOneTextBox.Text;
-	        answerTwoTextHolder = AnswerTwoTextBox.Text;
+            answerOneTextHolder = AnswerOneTextBox.Text;
+            answerTwoTextHolder = AnswerTwoTextBox.Text;
 
-	        AnswerOneTextBox.Text = string.Empty;
+            AnswerOneTextBox.Text = string.Empty;
             AnswerTwoTextBox.Text = string.Empty;
 
             TextBoxHelper.SetWatermark(AnswerOneTextBox, "True");
             TextBoxHelper.SetWatermark(AnswerTwoTextBox, "False");
-	    }
+        }
 
-	    void TrueFalseRB_OnUnchecked(object sender, RoutedEventArgs e) {
+        void TrueFalseRB_OnUnchecked(object sender, RoutedEventArgs e) {
             Answer1CheckBox.IsEnabled = true;
             Answer2CheckBox.IsEnabled = true;
             Answer3CheckBox.IsEnabled = true;
@@ -99,8 +106,8 @@ namespace Exam_Formatter.Controls {
             TextBoxHelper.SetWatermark(AnswerOneTextBox, string.Empty);
             TextBoxHelper.SetWatermark(AnswerTwoTextBox, string.Empty);
 
-	        if ( answerOneTextHolder.Length != 0 ) { AnswerOneTextBox.Text = answerOneTextHolder; }
-            if (answerTwoTextHolder.Length != 0) { AnswerTwoTextBox.Text = answerTwoTextHolder; }
+            if ( answerOneTextHolder.Length != 0 ) { AnswerOneTextBox.Text = answerOneTextHolder; }
+            if ( answerTwoTextHolder.Length != 0 ) { AnswerTwoTextBox.Text = answerTwoTextHolder; }
         }
-	}
+    }
 }

@@ -1,39 +1,51 @@
 ﻿#region Header
 
-// Alex Gravely - Alex
+// Description:
 //
-// Exam Formatter - Exam Formatter
-// NewExamFlyout.xaml.cs - 30//11//2015 1:25 AM
+// Solution: Exam Formatter
+// Project: Exam Formatter
+//
+// Created: 11/29/2015 9:40 PM
+// Last Revised: 01/12/2016 4:29 AM
+// Last Revised by: Alex Gravely - Alex
 
 #endregion Header
 
-using System;
-using System.Windows;
+namespace Exam_Formatter.FlyoutControls
+{
+    #region Using
 
-namespace Exam_Formatter.FlyoutControls {
+    using System.Windows;
+
+    #endregion Using
+
+    public partial class CreateExamFlyout {
+
+        #region Public Delegates + Events
+
+        public event CreatingExamDelegate IsCreatingExam;
+
+        #endregion Public Delegates + Events
+
+        #region Public Constructors
+
+        public CreateExamFlyout() {
+            InitializeComponent();
+            CreateExamButton.Click += RaiseCreatingExamEvent;
+        }
+
+        protected virtual void OnCreatingExam(RoutedEventArgs e) => IsCreatingExam?.Invoke(e);
+
+        protected void RaiseCreatingExamEvent(object sender, RoutedEventArgs routedEventArgs) {
+            OnCreatingExam(routedEventArgs);
+            Visibility = Visibility.Hidden;
+        }
+
+        #endregion Public Constructors
+    }
 
     /// <summary>
     ///     Interaction logic for NewExamFlyout.xaml
     /// </summary>
     public delegate void CreatingExamDelegate(RoutedEventArgs e);
-	public partial class CreateExamFlyout {
-
-	    public event CreatingExamDelegate IsCreatingExam;
-		#region Public Constructors
-
-	    public CreateExamFlyout()
-		{
-			InitializeComponent();
-	        CreateExamButton.Click += RaiseCreatingExamEvent;
-	    }
-
-	    protected void RaiseCreatingExamEvent(object sender, RoutedEventArgs routedEventArgs) {
-	        OnCreatingExam(routedEventArgs);
-	        Visibility = Visibility.Hidden;
-	    }
-
-	    protected virtual void OnCreatingExam(RoutedEventArgs e) => IsCreatingExam?.Invoke(e);
-
-	    #endregion Public Constructors
-	}
 }

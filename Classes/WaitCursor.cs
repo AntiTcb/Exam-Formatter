@@ -1,26 +1,37 @@
 ﻿#region Header
-// Alex Gravely - Alex
-// 
-// Exam Formatter - Exam Formatter
-// WaitCursor.cs - 03//12//2015 11:54 PM
-#endregion
 
-using System;
-using System.Windows.Input;
+// Description:
+//
+// Solution: Exam Formatter
+// Project: Exam Formatter
+//
+// Created: 12/03/2015 11:54 PM
+// Last Revised: 01/12/2016 4:26 AM
+// Last Revised by: Alex Gravely - Alex
 
-namespace Exam_Formatter.Classes {
-	public class WaitCursor : IDisposable {
-		Cursor _previousCursor;
+#endregion Header
 
-		public WaitCursor() {
-			_previousCursor = Mouse.OverrideCursor;
-			Mouse.OverrideCursor = Cursors.Wait;
-		}
+namespace Exam_Formatter.Classes
+{
+    #region Using
 
-		#region IDisposable Members
+    using System;
+    using System.Windows.Input;
 
-		public void Dispose() { Mouse.OverrideCursor = _previousCursor; }
+    #endregion Using
 
-		#endregion
-	}
+    public class WaitCursor : IDisposable {
+        readonly Cursor previousCursor;
+
+        public WaitCursor() {
+            previousCursor = Mouse.OverrideCursor;
+            Mouse.OverrideCursor = Cursors.Wait;
+        }
+
+        #region IDisposable Members
+
+        public void Dispose() => Mouse.OverrideCursor = previousCursor;
+
+        #endregion IDisposable Members
+    }
 }

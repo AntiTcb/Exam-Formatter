@@ -1,45 +1,39 @@
 ﻿#region Header
 
 // Description:
-// 
+//
 // Solution: Exam Formatter
 // Project: Exam Formatter
-// 
-// Copyright: Copyright (c) 2014-2015 Star City Games (http://www.starcitygames.com)
-// 
-// Created: 11/28/2015 6:06 PM
-// Last Revised: 01/03/2016 2:03 PM
+//
+// Created: 01/03/2016 7:36 PM
+// Last Revised: 01/12/2016 5:17 AM
 // Last Revised by: Alex Gravely - Alex
 
-#endregion
+#endregion Header
 
-#region Using
-
-
-
-#endregion Using
-
-namespace Exam_Formatter.Windows {
+namespace Exam_Formatter.Windows
+{
     #region Using
 
+    using Classes;
+    using Enums;
+    using MahApps.Metro.Controls;
+    using MahApps.Metro.Controls.Dialogs;
+    using Microsoft.Win32;
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Classes;
-    using Enums;
-    using MahApps.Metro.Controls;
-    using MahApps.Metro.Controls.Dialogs;
-    using Microsoft.Win32;
 
-    #endregion
+    #endregion Using
 
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
+
         #region Private Fields + Properties
 
         public bool EnableControls
@@ -52,8 +46,10 @@ namespace Exam_Formatter.Windows {
             }
         }
 
-        const string HELP_MESSAGE = "To link to a card, use <card></card> tags. \n Ex: 'This will link to <card>Bujin Yamato</card>.\n" +
-                                    "To link to the various policy documents, use [POLICY-KDE], [POLICY-YGO], or [POLICY-PENALTY].";
+        const string HELP_MESSAGE =
+            "To link to a card, use <card></card> tags. \n Ex: 'This will link to <card>Bujin Yamato</card>.\n" +
+            "To link to the various policy documents, use [POLICY-KDE], [POLICY-YGO], or [POLICY-PENALTY].";
+
         TabItem currentCategory;
         TabItem currentQuestion;
         bool enableControls;
@@ -86,35 +82,45 @@ namespace Exam_Formatter.Windows {
                 if ( CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ||
-                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) {
+                         return;
+                     }
             }
             else if ( Equals(checkBox, CategoryGrid.Answer2CheckBox) )
             {
                 if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ||
-                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) {
+                         return;
+                     }
             }
             else if ( Equals(checkBox, CategoryGrid.Answer3CheckBox) )
             {
                 if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ||
-                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) {
+                         return;
+                     }
             }
             else if ( Equals(checkBox, CategoryGrid.Answer4CheckBox) )
             {
                 if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
-                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+                     CategoryGrid.Answer5CheckBox.IsChecked.GetValueOrDefault() ) {
+                         return;
+                     }
             }
             else if ( Equals(checkBox, CategoryGrid.Answer5CheckBox) )
             {
                 if ( CategoryGrid.Answer1CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer2CheckBox.IsChecked.GetValueOrDefault() ||
                      CategoryGrid.Answer3CheckBox.IsChecked.GetValueOrDefault() ||
-                     CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ) { return; }
+                     CategoryGrid.Answer4CheckBox.IsChecked.GetValueOrDefault() ) {
+                         return;
+                     }
             }
             checkBox.IsChecked = false;
         }
@@ -367,7 +373,7 @@ namespace Exam_Formatter.Windows {
                     break;
 
                 default:
-                    Console.WriteLine(qt);
+                    Debug.WriteLine(qt);
                     throw new ArgumentOutOfRangeException(nameof(qt), qt, null);
             }
         }
@@ -405,11 +411,12 @@ namespace Exam_Formatter.Windows {
 
         async void RenameCategoryAsync(object sender, MouseButtonEventArgs e) {
             var categoryLabel = sender as TabItem;
-            if (categoryLabel == null) { return; }
+            if ( categoryLabel == null ) { return; }
             var output = await this.ShowInputAsync
-                                              ("Rename the Category", $"{categoryLabel.Content}",
-                                               new MetroDialogSettings { DefaultText = "Category" });
-            categoryLabel.Header = output == "Category" || output == string.Empty ? $"Category {categoryLabel.Name.Substring(1)}" : output;
+                                   ("Rename the Category", $"{categoryLabel.Content}",
+                                    new MetroDialogSettings { DefaultText = "Category" });
+            categoryLabel.Header = output == "Category" || output == string.Empty
+                                       ? $"Category {categoryLabel.Name.Substring(1)}" : output;
         }
 
         async void SaveFileAsync(object sender, RoutedEventArgs e) {
@@ -427,8 +434,7 @@ namespace Exam_Formatter.Windows {
             }
         }
 
-        async void ShowHelpDialogAsync(object sender, RoutedEventArgs e) {
-            await this.ShowMessageAsync("Help!", HELP_MESSAGE);
-        }
+        async void ShowHelpDialogAsync(object sender, RoutedEventArgs e)
+            => await this.ShowMessageAsync("Help!", HELP_MESSAGE);
     }
 }

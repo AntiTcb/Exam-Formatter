@@ -1,50 +1,50 @@
 ﻿#region Header
 
 // Description:
-// 
+//
 // Solution: Exam Formatter
 // Project: Exam Formatter
-// 
-// Copyright: Copyright (c) 2014-2015 Star City Games (http://www.starcitygames.com)
-// 
-// Created: 12/08/2015 11:50 PM
-// Last Revised: 01/05/2016 11:52 PM
+//
+// Created: 01/12/2016 3:28 AM
+// Last Revised: 01/12/2016 4:25 AM
 // Last Revised by: Alex Gravely - Alex
 
-#endregion
+#endregion Header
 
 #region Using
 
 using static System.Text.RegularExpressions.Regex;
 
-#endregion
+#endregion Using
 
-namespace Exam_Formatter.Classes {
+namespace Exam_Formatter.Classes
+{
     #region Using
 
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using System.Windows.Controls;
     using Enums;
 
-    #endregion
+    #endregion Using
 
     [ SuppressMessage("ReSharper", "SwitchStatementMissingSomeCases") ]
     public static class ExamParser {
-        #region Public Methods
-
         const int INDEX_ADJUST = 1;
 
         const string KDE_POLICY =
-            "<u><font color='blue'><a href='http://www.yugioh-card.com/en/gameplay/penalty_guide/KDE%20TCG%20Tournament%20Policy%20v1.4%202013November14.pdf' target='_blank' id='KDEPolicy'>KDE Tournament Policy Guidelines</a></font></u>";
+            "<u><font color='blue'><a href='http://www.yugioh-card.com/en/gameplay/penalty_guide/KDE%20TCG%20Tournament%20Policy%20v1.4%202013November14.pdf' target='_blank' class='KDEPolicy'>KDE Tournament Policy Guidelines</a></font></u>";
 
         const string PENALTY_POLICY =
-            "<u><font color='blue'><a href='http://www.yugioh-card.com/en/gameplay/penalty_guide/Penalty%20Guidelines%20v1.4%202013November14.pdf' target='_blank' id='Penalties'>Yu-Gi-Oh! Penalty Guidelines</a></font></u>";
+            "<u><font color='blue'><a href='http://www.yugioh-card.com/en/gameplay/penalty_guide/Penalty%20Guidelines%20v1.4%202013November14.pdf' target='_blank' class='Penalties'>Yu-Gi-Oh! Penalty Guidelines</a></font></u>";
 
         const string YUGIOH_POLICY =
-            "<u><font color='blue'><a href='http://www.yugioh-card.com/en/gameplay/penalty_guide/Yu-Gi-Oh!%20Tournament%20Policy%20v1.4%202013November14.pdf' target='_blank' id='YGOPolicy'>Yu-Gi-Oh! Policy Guidelines</a></font></u>";
+            "<u><font color='blue'><a href='http://www.yugioh-card.com/en/gameplay/penalty_guide/Yu-Gi-Oh!%20Tournament%20Policy%20v1.4%202013November14.pdf' target='_blank' class='YGOPolicy'>Yu-Gi-Oh! Policy Guidelines</a></font></u>";
 
         public static async Task ReadExamFileAsync(string filePath, Exam exam) {
             string fileDump;
@@ -56,7 +56,14 @@ namespace Exam_Formatter.Classes {
             using ( var sw = new StreamWriter(filepath) )
             {
                 await sw.WriteLineAsync($"{exam.Name}\n");
-                foreach ( var cat in exam.Categories ) { await sw.WriteLineAsync(ConvertToHtml(cat.ToString())); }
+                var progress = new ProgressBar();
+                progress.Orientation = Orientation.Horizontal;
+                progress.IsEnabled = true;
+                foreach ( var cat in exam.Categories )
+                {
+                    await sw.WriteLineAsync(ConvertToHtml(cat.ToString()));
+                    progress.Value = ( cat.ID / 20 ) * 100;
+                }
             }
         }
 
@@ -76,8 +83,6 @@ namespace Exam_Formatter.Classes {
                                                                                                   Convert.ToInt32
                                                                                                       (splitHeader[ 1 ]) -
                                                                                                   INDEX_ADJUST ];
-                Console.WriteLine
-                    ($"Text Category: {splitHeader[ 0 ]}, {splitHeader[ 1 ]}, Accessed Question: {thisQuestion.ID}");
                 thisQuestion.Text = ConvertFromHtml(splitQuestion[ 1 ]);
                 thisQuestion.QuestionType = ParseQuestionType(splitQuestion[ 2 ]);
 
@@ -101,59 +106,57 @@ namespace Exam_Formatter.Classes {
             }
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
-        public static string ConvertFromHtml(string text) {
-            string finalResult;
+        public static string ConvertFromHtml(string text)
+        {
+            var finalResult = text;
             try
             {
-                var pattern = new[ ] { @"<f.+?'_blank'>", "</a></u></font>", "</a></font></u>", @"<u.+?\YGOPolicy.+?>", @"<u.+?\KDEPolicy.+?>", @"<u.+?\Penalties.+?>" };
-                var replacement = new[ ] { "<card>", "</card>", "[POLICY-YGO]", "[POLICY-KDE]", "[POLICY-PENALTY]" };
-                var reg = new Regex(pattern[ 0 ]);
-                var firstPass = reg.Replace(text, replacement[ 0 ]);
-                reg = new Regex(pattern[ 1 ]);
-                finalResult = reg.Replace(firstPass, replacement[ 1 ]);
+                var pattern = new[] { @"<f.+?'_blank'>", "</a></u></font>", $"{YUGIOH_POLICY}", $"{KDE_POLICY}", $"{PENALTY_POLICY}" };
+                var replacement = new[] { "<card>", "</card>", "[POLICY-YGO]", "[POLICY-KDE]", "[POLICY-PENALTY]" };
+                finalResult = Replace(finalResult, pattern[0], replacement[0]);
+                finalResult = Replace(finalResult, pattern[1], replacement[1]);
+                finalResult = Replace(finalResult, pattern[2], replacement[2]);
+                finalResult = Replace(finalResult, pattern[3], replacement[3]);
+                finalResult = Replace(finalResult, pattern[4], replacement[4]);
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine(e);
-                finalResult = string.Empty;
+                Debug.WriteLine(e);
+                finalResult = "An error occurred. PM Anti with the text that should be here.";
             }
             return finalResult;
         }
 
-        public static string ConvertToHtml(string text) {
-            string finalResult;
+        public static string ConvertToHtml(string text)
+        {
+            var finalResult = text;
             try
             {
-                var patterns = new[ ]
-                               {
-                                   @"<card>(.+?)<", "<card>", "</card>", "[POLICY-YGO]", "[POLICY-KDE]", "[POLICY-PENALTY]"
-                               };
-                var reg = new Regex(patterns[ 0 ]);
-                var cardName = reg.Match(text).Groups[ 1 ].Value.Replace(" ", "+");
-                var replacement = new[ ]
-                                  {
-                                      $@"<font color='blue'><u><a href='http://antitcb.com/cardlookup?CardName={cardName
-                                          }' target='_blank'>",
-                                      "</a></u></font>",
-                                      $"{YUGIOH_POLICY}",
-                                      $"{KDE_POLICY}",
-                                      $"{PENALTY_POLICY}"
-                                  };
-                reg = new Regex(patterns[ 1 ]);
-                var firstPass = reg.Replace(text, replacement[ 0 ]);
-                reg = new Regex(patterns[ 2 ]);
-                finalResult = reg.Replace(firstPass, replacement[ 1 ]);
+                var patterns = new[] { @"(?: +)?<card>(?:[\\ ]+)?([a-z0-9""][&\-=\p{Lu}\p{Ll}!.:""',#/・ 0-9]*\s*)(?:[!\\""'/_@#$%^&*()]+)?</card>(?: +)?", @"\[policy-ygo\]", @"\WPOLICY-KDE\W", @"\WPOLICY-PENALTY\W" };
+                var replacements = new[] { @" <font color='blue'><u><a href='http://antitcb.com/cardlookup?CardName=$1' target='_blank'>$1</a></u></font> ", $"{YUGIOH_POLICY}", $"{KDE_POLICY}", $"{PENALTY_POLICY}" };
+
+                for (var i = 0; i <= patterns.GetUpperBound(0); i++)
+                {
+                    var regex = new Regex(patterns[i], RegexOptions.IgnoreCase);
+                    finalResult = regex.Replace(finalResult, replacements[i]);
+                }
             }
-            catch ( Exception e )
+            catch (ArgumentNullException ex)
             {
-                Console.WriteLine(e);
-                finalResult = string.Empty;
+
+                Console.WriteLine(ex);
+                finalResult = "This line was left empty. Please place text here.";
             }
-            return finalResult;
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+                finalResult = "An error occurred. PM Anti with the text that should be here.";
+            }
+
+            var replaceDict = Matches(finalResult, @"'_blank'>(.+?)</a></u></font>").Cast<Match>().ToDictionary(match => match.Groups[1].ToString(), match => match.Groups[1].ToString().Replace(" ", "+"));
+
+            return replaceDict.Aggregate(finalResult, (current, cardNameReplace) => Replace(current, $"CardName={cardNameReplace.Key}", $"CardName={cardNameReplace.Value}"));
         }
 
         static CorrectAnswer ParseAnswers(string answerLine) {
@@ -272,31 +275,6 @@ namespace Exam_Formatter.Classes {
             throw new ArgumentException("An answer was not properly encoded!");
         }
 
-        static async Task ParseQuestionAsync(Exam exam, int cat, int q, string question) {
-            var currentQuestion = exam.Categories[ cat ].Questions[ q ];
-            using ( var sr = new StringReader(question) )
-            {
-                currentQuestion.Text = ConvertFromHtml(await sr.ReadLineAsync());
-                currentQuestion.QuestionType = ParseQuestionType(await sr.ReadLineAsync());
-
-                switch ( currentQuestion.QuestionType )
-                {
-                    case QuestionType.TrueFalse:
-                        currentQuestion.SetCorrectAnswer(ParseAnswers(await sr.ReadLineAsync()));
-                        return;
-
-                    default:
-                        currentQuestion.A.Text = ConvertFromHtml(await sr.ReadLineAsync());
-                        currentQuestion.B.Text = ConvertFromHtml(await sr.ReadLineAsync());
-                        currentQuestion.C.Text = ConvertFromHtml(await sr.ReadLineAsync());
-                        currentQuestion.D.Text = ConvertFromHtml(await sr.ReadLineAsync());
-                        currentQuestion.E.Text = ConvertFromHtml(await sr.ReadLineAsync());
-                        currentQuestion.SetCorrectAnswer(await sr.ReadLineAsync());
-                        return;
-                }
-            }
-        }
-
         static QuestionType ParseQuestionType(string qt) {
             switch ( qt )
             {
@@ -317,6 +295,4 @@ namespace Exam_Formatter.Classes {
             }
         }
     }
-
-    #endregion Private Methods
 }

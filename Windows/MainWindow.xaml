@@ -11,15 +11,18 @@
                       Height="1000"
                       Closing="MainWindow_OnClosing"
                       DataContext="{Binding Source=exam}"
+                      Icon="/Exam Formatter;component/Resources/Yamato.png"
                       WindowStartupLocation="CenterScreen"
-                      mc:Ignorable="d" Icon="/Exam Formatter;component/Resources/Yamato.png" >
+                      mc:Ignorable="d">
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <Button Name="HelpButton" Click="ShowHelpDialogAsync">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, 
-                        Path=Foreground}">
+                    <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
+                                              Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_question}" />
                         </Rectangle.OpacityMask>
@@ -60,7 +63,6 @@
                                Text="Donate" />
                 </StackPanel>
             </Button>
-
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
 

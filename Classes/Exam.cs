@@ -1,46 +1,55 @@
 ﻿#region Header
 
-// Alex Gravely - Alex
+// Description:
 //
-// Exam Formatter - Exam Formatter
-// Exam.cs - 30//11//2015 1:24 AM
+// Solution: Exam Formatter
+// Project: Exam Formatter
+//
+// Created: 11/29/2015 8:18 PM
+// Last Revised: 01/12/2016 4:25 AM
+// Last Revised by: Alex Gravely - Alex
 
 #endregion Header
 
-#region Using
+namespace Exam_Formatter.Classes
+{
+    #region Using
 
-using System.Linq;
+    using System.Linq;
 
-#endregion Using
+    #endregion Using
 
-namespace Exam_Formatter.Classes {
+    public class Exam {
 
-	public class Exam {
+        #region Public Fields + Properties
 
-		public string Name;
+        public Category[ ] Categories;
+        public string Name;
 
-		#region Public Fields + Properties
+        #endregion Public Fields + Properties
 
-		public Category[] Categories;
 
-		#endregion Public Fields + Properties
 
-		#region Public Constructors
+        #region Public Constructors
 
-		public Exam() {
-			var I = 0;
-			Categories = Enumerable.Repeat(0, 20).Select(x => new Category(++I)).ToArray(); }
+        public Exam() {
+            var I = 0;
+            Categories = Enumerable.Repeat(0, 20).Select(x => new Category(++I)).ToArray();
+        }
 
-		public Exam(Category[] cats) { Categories = cats; }
+        public Exam(Category[] cats)
+        {
+            Categories = cats;
+        }
 
-		#endregion Public Constructors
+        #endregion Public Constructors
 
-		#region Public Methods
+        #region Public Methods
 
-		public int GetCategoryCount() => Categories.Length;
+        public int GetCategoryCount() => Categories.Length;
 
-		public int GetQuestionCount() => Categories.Sum(category => category.Questions.Length);
+        public int GetQuestionCount() => Categories.Sum(category => category.Questions.Length);
 
-		#endregion Public Methods
-	}
+        #endregion Public Methods
+    }
 }

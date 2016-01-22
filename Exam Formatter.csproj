@@ -154,16 +154,12 @@
     <Compile Include="Controls\CategoryGrid.xaml.cs">
       <DependentUpon>CategoryGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\CardType.cs" />
     <Compile Include="Enums\CorrectAnswer.cs" />
-    <Compile Include="Enums\MonsterAbility.cs" />
-    <Compile Include="Enums\MonsterType.cs" />
     <Compile Include="Enums\QuestionType.cs" />
-    <Compile Include="Enums\SpellCardType.cs" />
-    <Compile Include="Enums\TrapCardType.cs" />
     <Compile Include="FlyoutControls\CreateExamFlyout.xaml.cs">
       <DependentUpon>CreateExamFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

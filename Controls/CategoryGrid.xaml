@@ -229,11 +229,4 @@
                      controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
-
-
-
-
-
-
-
 </Grid>

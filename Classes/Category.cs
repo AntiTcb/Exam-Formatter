@@ -1,62 +1,87 @@
 ﻿#region Header
 
-// Alex Gravely - Alex
+// Description:
 //
-// Exam Formatter - Exam Formatter
-// Category.cs - 30//11//2015 1:24 AM
+// Solution: Exam Formatter
+// Project: Exam Formatter
+//
+// Created: 11/29/2015 1:46 AM
+// Last Revised: 01/12/2016 4:25 AM
+// Last Revised by: Alex Gravely - Alex
 
 #endregion Header
 
-using System;
-using System.Linq;
-using System.Text;
-using Exam_Formatter.Enums;
+namespace Exam_Formatter.Classes
+{
+    #region Using
 
-namespace Exam_Formatter.Classes {
+    using Enums;
+    using System.Linq;
+    using System.Text;
 
-	public class Category {
+    #endregion Using
 
-		#region Public Fields + Properties
+    public class Category {
 
-		public int ID;
-		public Question[] Questions;
-		public string Name;
+        #region Public Fields + Properties
 
-		#endregion Public Fields + Properties
+        public int ID;
+        public Question[ ] Questions;
+        public string Name;
 
-		#region Public Constructors
+        #endregion Public Fields + Properties
 
-		public Category(int id) {
-			var I = 0;
-			ID = id;
-			Questions = Enumerable.Repeat(0, 3).Select(x => new Question(++I, QuestionType.MultiSingle)).ToArray(); }
+        #region Public Constructors
 
-		public Category(int id, Question q) : this(id) { Questions = new[] { q }; }
+        public Category(int id) {
+            var I = 0;
+            ID = id;
+            Questions = Enumerable.Repeat(0, 3).Select(x => new Question(++I, QuestionType.MultiSingle)).ToArray();
+        }
 
-		public Category(int id, string n) : this(id) { Name = n; }
+        public Category(int id, Question q) : this(id)
+        {
+            Questions = new[] { q };
+        }
 
-		public Category(int id, string n, Question q) : this(id, n) { Questions = new[] {q}; }
+        public Category(int id, string n) : this(id)
+        {
+            Name = n;
+        }
 
-		public Category(int id, Question[] q) : this(id) { Questions = q; }
+        public Category(int id, string n, Question q) : this(id, n)
+        {
+            Questions = new[] { q };
+        }
 
-		public Category(int id, Question[] q, string n) : this(id, q) { Name = n; }
+        public Category(int id, Question[] q) : this(id)
+        {
+            Questions = q;
+        }
 
-		#region Overrides of Object
+        public Category(int id, Question[] q, string n) : this(id, q)
+        {
+            Name = n;
+        }
 
-		public override string ToString() {
-			var sb = new StringBuilder();
+        #region Overrides of Object
 
-			foreach (var q in Questions)
-			{
-				sb.AppendLine($"#{ID}.{q.ID}");
-				sb.Append(q);
-                Console.WriteLine($"{ID}.{q.ID}");
-			}
-			return $"{sb}\n";
-		}
+        public override string ToString() {
+            var sb = new StringBuilder();
 
-		#endregion
+            foreach ( var q in Questions )
+            {
+                sb.AppendLine($"#{ID}.{q.ID}");
+                sb.Append(q);
+#if DEBUG
+                Debug.WriteLine($"{ID}.{q.ID}");
+#endif
+            }
+            return $"{sb}\n";
+        }
 
-		#endregion Public Constructors
-	}
+        #endregion Overrides of Object
+
+        #endregion Public Constructors
+    }
 }

@@ -6,7 +6,7 @@
 // Project: Exam Formatter
 //
 // Created: 11/29/2015 8:18 PM
-// Last Revised: 01/12/2016 4:25 AM
+// Last Revised: 01/22/2016 5:28 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
@@ -27,8 +27,6 @@ namespace Exam_Formatter.Classes
         public string Name;
 
         #endregion Public Fields + Properties
-
-
 
         #region Public Constructors
 

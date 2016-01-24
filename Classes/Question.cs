@@ -6,7 +6,7 @@
 // Project: Exam Formatter
 //
 // Created: 11/29/2015 1:29 AM
-// Last Revised: 01/12/2016 4:25 AM
+// Last Revised: 01/22/2016 5:28 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
@@ -17,6 +17,7 @@ namespace Exam_Formatter.Classes
 
     using Enums;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text;
 
     #endregion Using
@@ -35,9 +36,14 @@ namespace Exam_Formatter.Classes
         public Answer D;
         public Answer E;
         public int ID;
-        string text;
 
         #endregion Public Fields + Properties
+
+        #region Private Fields + Properties
+
+        string text;
+
+        #endregion Private Fields + Properties
 
         #region Public Constructors
 
@@ -64,6 +70,7 @@ namespace Exam_Formatter.Classes
 
         #region Public Methods
 
+        [ SuppressMessage("ReSharper", "CyclomaticComplexity") ]
         public string GetCorrectAnswerString() {
             switch ( CorrectAnswers )
             {
@@ -169,7 +176,6 @@ namespace Exam_Formatter.Classes
         #region Overrides of Object
 
         public override string ToString() {
-            Text = ExamParser.ConvertToHtml(Text);
             A.Text = ExamParser.ConvertToHtml(A.Text);
             B.Text = ExamParser.ConvertToHtml(B.Text);
             C.Text = ExamParser.ConvertToHtml(C.Text);
@@ -177,7 +183,8 @@ namespace Exam_Formatter.Classes
             E.Text = ExamParser.ConvertToHtml(E.Text);
 
             var sb = new StringBuilder();
-            sb.AppendLine(Text);
+            sb.AppendLine($"{ExamParser.ConvertToHtml(Text)}{(QuestionType == QuestionType.MultiSelect ? "<br>Select <b><u>ALL </u></b> the correct answer(s):" : "<br>Select the correct answer:")}");
+
 
             switch ( QuestionType )
             {

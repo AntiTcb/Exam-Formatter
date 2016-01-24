@@ -6,7 +6,7 @@
 // Project: Exam Formatter
 //
 // Created: 11/29/2015 1:46 AM
-// Last Revised: 01/12/2016 4:25 AM
+// Last Revised: 01/22/2016 5:28 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
@@ -15,6 +15,7 @@ namespace Exam_Formatter.Classes
 {
     #region Using
 
+    using System.Diagnostics;
     using Enums;
     using System.Linq;
     using System.Text;
@@ -71,11 +72,9 @@ namespace Exam_Formatter.Classes
 
             foreach ( var q in Questions )
             {
-                sb.AppendLine($"#{ID}.{q.ID}");
+                sb.AppendLine($"#{ID}.{q.ID}.{Name}".Trim());
                 sb.Append(q);
-#if DEBUG
-                Debug.WriteLine($"{ID}.{q.ID}");
-#endif
+                Debug.WriteLine($"{ID}.{q.ID}".Trim());
             }
             return $"{sb}\n";
         }

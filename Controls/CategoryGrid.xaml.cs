@@ -6,7 +6,7 @@
 // Project: Exam Formatter
 //
 // Created: 11/29/2015 11:04 PM
-// Last Revised: 01/12/2016 4:27 AM
+// Last Revised: 01/22/2016 5:28 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
@@ -15,6 +15,7 @@ namespace Exam_Formatter.Controls
 {
     #region Using
 
+    using System.Diagnostics.CodeAnalysis;
     using MahApps.Metro.Controls;
     using System.Windows;
     using System.Windows.Controls;
@@ -26,8 +27,13 @@ namespace Exam_Formatter.Controls
     ///     Interaction logic for CategoryGrid.xaml
     /// </summary>
     public partial class CategoryGrid {
+
+        #region Private Fields + Properties
+
         string answerOneTextHolder;
         string answerTwoTextHolder;
+
+        #endregion Private Fields + Properties
 
         #region Public Constructors
 
@@ -38,18 +44,9 @@ namespace Exam_Formatter.Controls
 
         #endregion Public Constructors
 
-        void StyleCorrectCheckbox(object sender, RoutedEventArgs e) {
-            var cb = (CheckBox) sender;
-            cb.Foreground = Brushes.Green;
-            cb.Content = "Correct";
-        }
+        #region Public Methods
 
-        void StyleIncorrectCheckbox(object sender, RoutedEventArgs e) {
-            var cb = (CheckBox) sender;
-            cb.Foreground = Brushes.Red;
-            cb.Content = "Incorrect";
-        }
-
+        [ SuppressMessage("ReSharper", "CyclomaticComplexity") ]
         public void SetControlsEnabled(bool areControlsEnabled) {
             Answer1CheckBox.IsEnabled = areControlsEnabled;
             Answer2CheckBox.IsEnabled = areControlsEnabled;
@@ -69,6 +66,22 @@ namespace Exam_Formatter.Controls
             MultiSingleRadioButton.IsEnabled = areControlsEnabled;
             MultiSingleNoShuffleRadioButton.IsEnabled = areControlsEnabled;
             TrueFalseRadioButton.IsEnabled = areControlsEnabled;
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        void StyleCorrectCheckbox(object sender, RoutedEventArgs e) {
+            var cb = (CheckBox) sender;
+            cb.Foreground = Brushes.Green;
+            cb.Content = "Correct";
+        }
+
+        void StyleIncorrectCheckbox(object sender, RoutedEventArgs e) {
+            var cb = (CheckBox) sender;
+            cb.Foreground = Brushes.Red;
+            cb.Content = "Incorrect";
         }
 
         void TrueFalseRB_OnChecked(object sender, RoutedEventArgs e) {
@@ -109,5 +122,7 @@ namespace Exam_Formatter.Controls
             if ( answerOneTextHolder.Length != 0 ) { AnswerOneTextBox.Text = answerOneTextHolder; }
             if ( answerTwoTextHolder.Length != 0 ) { AnswerTwoTextBox.Text = answerTwoTextHolder; }
         }
+
+        #endregion Private Methods
     }
 }

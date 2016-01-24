@@ -6,7 +6,7 @@
 // Project: Exam Formatter
 //
 // Created: 11/28/2015 6:05 PM
-// Last Revised: 01/12/2016 4:29 AM
+// Last Revised: 01/22/2016 5:29 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
@@ -28,7 +28,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Alex Gravely")]
 [assembly: AssemblyProduct("AntiTcb")]
-[assembly: AssemblyCopyright("AntiTcb.com Copyright ©  2015")]
+[assembly: AssemblyCopyright("AntiTcb.com Copyright ©  2015-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

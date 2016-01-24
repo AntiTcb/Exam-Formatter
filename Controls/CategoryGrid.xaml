@@ -4,6 +4,8 @@
       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      MinWidth="750"
+      MaxWidth="1200"
       d:DesignHeight="750"
       d:DesignWidth="650"
       mc:Ignorable="d">
@@ -18,12 +20,9 @@
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
 
-    <Grid Grid.Row="0"
-          Grid.Column="0"
-          Grid.ColumnSpan="2">
+    <Grid Grid.Row="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
@@ -59,21 +58,24 @@
             <RadioButton Name="MultiSingleRadioButton"
                          Margin="5"
                          GroupName="QuestionType"
-                         IsChecked="True">
+                         IsChecked="True"
+                         TabIndex="7">
                 <RadioButton.Content>
                     <TextBlock Text="Multiple Choice - Single Answer" TextWrapping="Wrap" />
                 </RadioButton.Content>
             </RadioButton>
             <RadioButton Name="MultiSingleNoShuffleRadioButton"
                          Margin="5"
-                         GroupName="QuestionType">
+                         GroupName="QuestionType"
+                         TabIndex="8">
                 <RadioButton.Content>
                     <TextBlock Text="Multiple Choice - Single Answer - No Shuffling" TextWrapping="Wrap" />
                 </RadioButton.Content>
             </RadioButton>
             <RadioButton Name="MultiSelectRadioButton"
                          Margin="5"
-                         GroupName="QuestionType">
+                         GroupName="QuestionType"
+                         TabIndex="9">
                 <RadioButton.Content>
                     <TextBlock Text="Multiple Choice - Select All" TextWrapping="Wrap" />
                 </RadioButton.Content>
@@ -84,17 +86,24 @@
                          Content="True / False"
                          FontSize="14"
                          GroupName="QuestionType"
+                         TabIndex="10"
                          Unchecked="TrueFalseRB_OnUnchecked" />
         </StackPanel>
 
         <TextBox Name="QuestionTextTextBox"
                  Grid.Row="1"
                  Grid.Column="1"
+                 Margin="-5,0,3,0"
+                 MaxWidth="700"
+                 AcceptsReturn="True"
                  FontSize="14"
-                 TextWrapping="Wrap" />
+                 TabIndex="1"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 controls:TextBoxHelper.ClearTextButton="True" />
     </Grid>
 
-    <Grid Grid.Row="1" Grid.Column="0">
+    <Grid Grid.Row="1">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -112,16 +121,20 @@
                           Content="Correct"
                           Foreground="Green"
                           IsChecked="True"
+                          TabIndex="11"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
             <TextBox Name="AnswerOneTextBox"
+                     Margin="3,0"
+                     AcceptsReturn="True"
                      FontSize="14"
+                     TabIndex="2"
                      TextWrapping="Wrap"
                      controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
-    <Grid Grid.Row="2" Grid.Column="0">
+    <Grid Grid.Row="2">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -139,16 +152,20 @@
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
+                          TabIndex="12"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
             <TextBox Name="AnswerTwoTextBox"
+                     Margin="3,0"
+                     AcceptsReturn="True"
                      FontSize="14"
+                     TabIndex="3"
                      TextWrapping="Wrap"
                      controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
-    <Grid Grid.Row="3" Grid.Column="0">
+    <Grid Grid.Row="3">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -166,16 +183,20 @@
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
+                          TabIndex="13"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
             <TextBox Name="AnswerThreeTextBox"
+                     Margin="3,0"
+                     AcceptsReturn="True"
                      FontSize="14"
+                     TabIndex="4"
                      TextWrapping="Wrap"
                      controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
-    <Grid Grid.Row="4" Grid.Column="0">
+    <Grid Grid.Row="4">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -195,16 +216,20 @@
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
+                          TabIndex="14"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
             <TextBox Name="AnswerFourTextBox"
+                     Margin="3,0"
+                     AcceptsReturn="True"
                      FontSize="14"
+                     TabIndex="5"
                      TextWrapping="Wrap"
                      controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>
     </Grid>
 
-    <Grid Grid.Row="5" Grid.Column="0">
+    <Grid Grid.Row="5">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -221,10 +246,14 @@
                           Checked="StyleCorrectCheckbox"
                           Content="Incorrect"
                           Foreground="Red"
+                          TabIndex="15"
                           Unchecked="StyleIncorrectCheckbox" />
             </Grid>
             <TextBox Name="AnswerFiveTextBox"
+                     Margin="3,0"
+                     AcceptsReturn="True"
                      FontSize="14"
+                     TabIndex="6"
                      TextWrapping="Wrap"
                      controls:TextBoxHelper.ClearTextButton="True" />
         </DockPanel>

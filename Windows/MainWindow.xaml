@@ -74,8 +74,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
@@ -85,7 +85,7 @@
 
         <StackPanel Grid.Row="0"
                     Grid.Column="0"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     Orientation="Horizontal">
             <Button Name="CreateNewButton"
                     Width="50"
@@ -158,6 +158,7 @@
         <DockPanel Grid.Row="0"
                    Grid.Column="1"
                    LastChildFill="True">
+
             <controls:MetroAnimatedSingleRowTabControl Name="QuestionTabs"
                                                        Margin="5,10,0,0"
                                                        DockPanel.Dock="Left"
@@ -171,21 +172,29 @@
 
         <Grid Name="CategoryQuestionGrid"
               Grid.Row="1"
-              Grid.Column="0"
-              Grid.ColumnSpan="2">
+              Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
             <controls:MetroAnimatedSingleRowTabControl Name="CategoryTabs"
                                                        Grid.Column="0"
                                                        Width="Auto"
-                                                       DataContext="{Binding exam}"
+                                                       DataContext="{Binding Source=exam}"
                                                        SelectionChanged="CategoryTabs_OnSelectionChanged"
                                                        TabStripPlacement="Right">
                 <TabControl.Resources>
                     <Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+                        <Setter Property="HeaderTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
                         <Setter Property="HorizontalAlignment" Value="Right" />
+                        <Setter Property="MaxWidth" Value="500" />
                     </Style>
                 </TabControl.Resources>
                 <TabItem Name="C1" Header="Category 1" />
@@ -213,6 +222,8 @@
 
         <myControls:CategoryGrid x:Name="CategoryGrid"
                                  Grid.Row="1"
-                                 Grid.Column="1" />
+                                 Grid.Column="1"
+                                 Margin="3"
+                                 HorizontalAlignment="Stretch" />
     </Grid>
 </controls:MetroWindow>

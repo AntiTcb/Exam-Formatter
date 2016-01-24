@@ -6,7 +6,7 @@
 // Project: Exam Formatter
 //
 // Created: 12/03/2015 11:54 PM
-// Last Revised: 01/12/2016 4:26 AM
+// Last Revised: 01/22/2016 5:28 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
@@ -21,12 +21,21 @@ namespace Exam_Formatter.Classes
     #endregion Using
 
     public class WaitCursor : IDisposable {
+
+        #region Private Fields + Properties
+
         readonly Cursor previousCursor;
+
+        #endregion Private Fields + Properties
+
+        #region Public Constructors
 
         public WaitCursor() {
             previousCursor = Mouse.OverrideCursor;
             Mouse.OverrideCursor = Cursors.Wait;
         }
+
+        #endregion Public Constructors
 
         #region IDisposable Members
 

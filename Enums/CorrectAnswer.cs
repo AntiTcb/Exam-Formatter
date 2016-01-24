@@ -6,13 +6,16 @@
 // Project: Exam Formatter
 //
 // Created: 11/30/2015 11:47 PM
-// Last Revised: 01/12/2016 4:28 AM
+// Last Revised: 01/22/2016 5:29 AM
 // Last Revised by: Alex Gravely - Alex
 
 #endregion Header
 
 namespace Exam_Formatter.Enums
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [ SuppressMessage("ReSharper", "InconsistentNaming") ]
     public enum CorrectAnswer {
         A = 10000,
         AB = 11000,
